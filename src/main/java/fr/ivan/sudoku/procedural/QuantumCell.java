@@ -2,6 +2,8 @@ package fr.ivan.sudoku.procedural;
 
 import fr.ivan.sudoku.util.Cell;
 
+import java.util.Arrays;
+
 public class QuantumCell extends Cell<boolean[]> {
 
     private boolean _checked = false;
@@ -23,9 +25,7 @@ public class QuantumCell extends Cell<boolean[]> {
     QuantumCell(QuantumCell c) {
         _value = new boolean[c._value.length];
         _finalValue = null;
-        for (int i = 0; i < _value.length; i++) {
-            _value[i] = c._value[i];
-        }
+        System.arraycopy(c._value, 0, _value, 0, _value.length);
         _checked = c._checked;
     }
 
@@ -86,9 +86,7 @@ public class QuantumCell extends Cell<boolean[]> {
 
     public void resetPossibilities() {
         _finalValue = null;
-        for (int i = 0; i < _value.length; i++) {
-            _value[i] = false;
-        }
+        Arrays.fill(_value, false);
     }
 
     public void setPossibility(Integer i) {
