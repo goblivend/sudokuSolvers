@@ -135,7 +135,7 @@ public class Procedural extends Sudoku<QuantumCell> {
         gridCell.updateChecked();
         if (gridCell.getEntropy() == 1)
         {
-:            boolean res = Propagate(cell.x, cell.y, gridCell.getValue()) && SolveRec();
+            boolean res = Propagate(cell.x, cell.y, gridCell.getValue()) && SolveRec();
             if (!res)
                 gridCell.updateChecked();
             return res;
