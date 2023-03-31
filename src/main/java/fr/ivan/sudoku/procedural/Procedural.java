@@ -38,9 +38,10 @@ public class Procedural extends Sudoku<QuantumCell> {
         for (int y = 0; y < _lineSize; y++) {
             for (int x = 0; x < _lineSize; x++) {
                 int i = x + _lineSize * y;
+
                 if (grid.charAt(i) != ' ' && grid.charAt(i) != '.')
                 {
-                    if (!Propagate(x, y, _grid[y][x].getValue()))
+                    if (!Propagate(x, y))
                         throw new RuntimeException(getClass().getName() + ".SetGrid(): Unsolvable Sudoku");
                 }
             }
@@ -50,51 +51,56 @@ public class Procedural extends Sudoku<QuantumCell> {
             if (_grid[p.y][p.x].getEntropy() != 1)
                 break;
             _grid[p.y][p.x].updateChecked();
-            if (!Propagate(p.x, p.y, _grid[p.y][p.x].getValue()))
+            if (!Propagate(p.x, p.y))
                 throw new RuntimeException(getClass().getName() + ".SetGrid(): Unsolvable Sudoku");
 
         } while (true);
     }
 
+    @Override
+    public boolean CheckCell(int x, int y, int oldX, int oldY) {
+        return false;
+    }
 
-    public boolean PropagateCell(int x, int y, int oldX, int oldY, int i) {
+
+    public boolean PropagateCell(int x, int y, int oldX, int oldY) {
         if(x == oldX && y == oldY)
             return true;
 
-        _grid[y][x].unsetPossibility(i);
+        _grid[y][x].unsetPossibility(_grid[oldY][oldX].getValue());
         return _grid[y][x].isCompletable();
     }
 
-    public boolean PropagateCol(int oldX, int y, int i) {
+    public boolean PropagateLine(int oldX, int y) {
         for (int x = 0; x < _lineSize; x++) {
-            if (!PropagateCell(x, y, oldX, y, i))
+            if (!PropagateCell(x, y, oldX, y))
                 return false;
         }
         return true;
     }
 
-    public boolean PropagateLine(int x, int oldY, int i) {
+    public boolean PropagateCol(int x, int oldY) {
         for (int y = 0; y < _lineSize; y++) {
-            if (!PropagateCell(x, y, x, oldY, i))
+            if (!PropagateCell(x, y, x, oldY))
                 return false;
         }
         return true;
     }
 
-    public boolean PropagateBlock(int x, int y, int i) {
+    public boolean PropagateBlock(int x, int y) {
         for (int dy = 0; dy < _size; dy++) {
             for (int dx = 0; dx < _size; dx++) {
                 int newX = (x/_size) * _size + dx;
                 int newY = (y/_size) * _size + dy;
-                if (!PropagateCell(newX, newY, x, y, i))
+                if (!PropagateCell(newX, newY, x, y))
                     return false;
             }
         }
         return true;
     }
 
-    public boolean Propagate(int x, int y, int i) {
-        return PropagateCol(x, y, i) && PropagateLine(x, y, i) && PropagateBlock(x, y, i);
+    public boolean Propagate(int x, int y) {
+        return PropagateCol(x, y) && PropagateLine(x, y) && PropagateBlock(x, y);
     }
 
     Point getCell(){
@@ -135,7 +141,7 @@ public class Procedural extends Sudoku<QuantumCell> {
         gridCell.updateChecked();
         if (gridCell.getEntropy() == 1)
         {
-:            boolean res = Propagate(cell.x, cell.y, gridCell.getValue()) && SolveRec();
+            boolean res = Propagate(cell.x, cell.y) && SolveRec();
             if (!res)
                 gridCell.updateChecked();
             return res;
@@ -149,7 +155,7 @@ public class Procedural extends Sudoku<QuantumCell> {
             QuantumCell[][] oldGrid = CopyGrid();
 
             gridCell.setPossibility(i);
-            if (Propagate(cell.x, cell.y, i) && SolveRec())
+            if (Propagate(cell.x, cell.y) && SolveRec())
                 return true;
 //            gridCell.unsetPossibility(i);
             _grid = oldGrid;

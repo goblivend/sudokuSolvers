@@ -47,6 +47,62 @@ public abstract class Sudoku<T extends Cell> {
         }
         System.out.println(GetDelimiter());
     }
+
+    public abstract boolean CheckCell(int x, int y, int oldX, int oldY);
+
+    public boolean CheckLine(int oldX, int y)
+    {
+//        boolean[] found = new boolean[_lineSize];
+
+        for (int x = 0; x < _lineSize; x++) {
+            if (!CheckCell(x, y, oldX, y))
+                return false;
+//            if (_grid[y][x].getValue() == null)
+//                continue;
+//            if (found[_grid[y][x].getValue()-1])
+//                return false;
+//            found[_grid[y][x].getValue() -1] = true;
+        }
+        return  true;
+    }
+
+
+    public boolean CheckCol(int x, int oldY)
+    {
+//        boolean[] found = new boolean[_lineSize];
+
+        for (int y = 0; y < _lineSize; y++) {
+            if (!CheckCell(x, y, x, oldY))
+                return false;
+//            if (_grid[y][x].getValue() == null)
+//                continue;
+//            if (found[_grid[y][x].getValue()-1])
+//                return false;
+//            found[_grid[y][x].getValue() -1] = true;
+        }
+        return true;
+    }
+
+
+    public boolean CheckBlock(int x, int y)
+    {
+//        boolean[] found = new boolean[_lineSize];
+        for (int dy = 0; dy < _size; dy++) {
+            for (int dx = 0; dx < _size; dx++) {
+                int newX = _size * x + dx;
+                int newY = _size * y + dy;
+                if (!CheckCell(newX, newY, x, y))
+                    return false;
+//                if (_grid[newY][newX].getValue() == null)
+//                    continue;
+//                if (found[_grid[newY][newX].getValue()-1])
+//                    return false;
+//                found[_grid[newY][newX].getValue() -1] = true;
+            }
+        }
+        return true;
+    }
+
     public abstract void Solve();
 
     @Override
@@ -64,3 +120,4 @@ public abstract class Sudoku<T extends Cell> {
         return res;
     }
 }
+
