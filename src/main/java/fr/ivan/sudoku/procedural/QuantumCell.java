@@ -1,5 +1,6 @@
 package fr.ivan.sudoku.procedural;
 
+import fr.ivan.profiler.Profiler;
 import fr.ivan.sudoku.util.Cell;
 
 import java.util.Arrays;
@@ -7,66 +8,113 @@ import java.util.Arrays;
 public class QuantumCell extends Cell<boolean[]> {
 
     private boolean _checked = false;
+    private Integer _entropy;
     private Integer _finalValue;
+    private final Profiler _profiler;
 
-    QuantumCell(int size, Integer n) {
+    QuantumCell(Profiler profiler, int size, Integer n) {
+        _profiler = profiler;
+        if (_profiler != null)
+            _profiler.start("QuantumCell.QuantumCell");
         _value = new boolean[size];
         if (n != null) {
-            _finalValue = n-1;
+            _entropy = 1;
+            _finalValue = n - 1;
             _value[n - 1] = true;
-        }
-        else {
+        } else {
             for (int i = 1; i <= _value.length; i++) {
-                _value[i-1] = true;
+                _value[i - 1] = true;
             }
         }
+        if (_profiler != null)
+            _profiler.finish("QuantumCell.QuantumCell");
     }
 
-    QuantumCell(QuantumCell c) {
+    QuantumCell(Profiler profiler, QuantumCell c) {
+        _profiler = profiler;
+        if (_profiler != null)
+            _profiler.start("QuantumCell.QuantumCell");
         _value = new boolean[c._value.length];
         _finalValue = null;
         System.arraycopy(c._value, 0, _value, 0, _value.length);
         _checked = c._checked;
+        _entropy = c._entropy;
+        if (_profiler != null)
+            _profiler.finish("QuantumCell.QuantumCell");
     }
 
-//    public boolean isValid(int i) {
-//        return _value[i-1];
-//    }
-
     public boolean isCompletable() {
-        for (boolean b: _value) {
-            if (b)
-                return true;
+        if (_profiler != null)
+            _profiler.start("QuantumCell.isCompletable");
+        if (_entropy != null) {
+            if (_profiler != null)
+                _profiler.finish("QuantumCell.isCompletable");
+            return _entropy != 0;
         }
+        for (boolean b : _value) {
+            if (b) {
+                if (_profiler != null)
+                    _profiler.finish("QuantumCell.isCompletable");
+                return true;
+            }
+        }
+        if (_profiler != null)
+            _profiler.finish("QuantumCell.isCompletable");
         return false;
     }
 
     public int getEntropy() {
-        if (_finalValue != null)
-            return 1;
+        if (_profiler != null)
+            _profiler.start("QuantumCell.getEntropy");
 
-        int entropy = 0;
-        for (boolean b: _value) {
-            if (b)
-                entropy++;
+        if (_entropy != null) {
+            if (_profiler != null)
+                _profiler.finish("QuantumCell.getEntropy");
+            return _entropy;
         }
-        return entropy;
+
+        if (_finalValue != null) {
+            if (_profiler != null)
+                _profiler.finish("QuantumCell.getEntropy");
+            return 1;
+        }
+
+        _entropy = 0;
+        for (boolean b : _value) {
+            if (b)
+                _entropy++;
+        }
+        if (_profiler != null)
+            _profiler.finish("QuantumCell.getEntropy");
+
+        return _entropy;
     }
 
     @Override
     public Integer getValue() {
-        if (_finalValue != null)
+        if (_profiler != null)
+            _profiler.start("QuantumCell.getValue");
+        if (_finalValue != null) {
+            if (_profiler != null)
+                _profiler.finish("QuantumCell.getValue");
             return _finalValue;
-
-        if (getEntropy() != 1)
+        }
+        if (getEntropy() != 1) {
+            if (_profiler != null)
+                _profiler.finish("QuantumCell.getValue");
             return null;
+        }
 
         for (int i = 0; i < _value.length; i++) {
             if (_value[i]) {
                 _finalValue = i;
+                if (_profiler != null)
+                    _profiler.finish("QuantumCell.getValue");
                 return i;
             }
         }
+        if (_profiler != null)
+            _profiler.finish("QuantumCell.getValue");
         return null;
     }
 
@@ -75,31 +123,37 @@ public class QuantumCell extends Cell<boolean[]> {
 
     }
 
-    public boolean[] getPossibilities(){
+    public boolean[] getPossibilities() {
         return _value.clone();
     }
 
     public void setPossibilities(boolean[] poss) {
         _value = poss.clone();
         _finalValue = null;
+        _entropy = null;
     }
 
     public void resetPossibilities() {
         _finalValue = null;
+        _entropy = null;
         Arrays.fill(_value, false);
     }
 
     public void setPossibility(Integer i) {
-        if (i == null)
+        if (i == null || _value[i])
             return;
         _finalValue = null;
+        if (_entropy != null)
+            _entropy++;
         _value[i] = true;
     }
 
     public void unsetPossibility(Integer i) {
-        if (i == null)
+        if (i == null || !_value[i])
             return;
         _finalValue = null;
+        if (_entropy != null)
+            _entropy--;
         _value[i] = false;
     }
 
