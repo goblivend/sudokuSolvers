@@ -1,30 +1,30 @@
-package fr.ivan.sudoku.procedural;
+package fr.ivan.sudoku.bitProcedural;
 
 import fr.ivan.profiler.Profiler;
 import fr.ivan.sudoku.util.Cell;
 
 import java.util.Arrays;
 
-public class QuantumCell extends Cell<boolean[]> {
+public class QuantumCell extends Cell<Integer> {
 
     private boolean _checked = false;
     private Integer _entropy;
     private Integer _finalValue;
+    private int _size;
     private final Profiler _profiler;
 
     QuantumCell(Profiler profiler, int size, Integer n) {
         _profiler = profiler;
         if (_profiler != null)
             _profiler.start("QuantumCell.QuantumCell");
-        _value = new boolean[size];
+        _value = 0;
+        _size = size;
         if (n != null) {
             _entropy = 1;
             _finalValue = n - 1;
-            _value[n - 1] = true;
+            _value = setIthBit(_value, n-1);
         } else {
-            for (int i = 1; i <= _value.length; i++) {
-                _value[i - 1] = true;
-            }
+            _value = getMaxIntFromSIze(size);
         }
         if (_profiler != null)
             _profiler.finish("QuantumCell.QuantumCell");
@@ -34,33 +34,41 @@ public class QuantumCell extends Cell<boolean[]> {
         _profiler = profiler;
         if (_profiler != null)
             _profiler.start("QuantumCell.QuantumCell");
-        _value = new boolean[c._value.length];
+        _value = c._value;
         _finalValue = c._finalValue;
-        System.arraycopy(c._value, 0, _value, 0, _value.length);
         _checked = c._checked;
         _entropy = c._entropy;
+        _size = c._size;
         if (_profiler != null)
             _profiler.finish("QuantumCell.QuantumCell");
+    }
+
+    public static Integer getMaxIntFromSIze(int size) {
+        return (int) Math.round(Math.pow(2, size)- 1);
+    }
+
+    public static int getMaskBit(int n) {
+        return 1 << n;
+    }
+
+    public static Integer setIthBit(Integer nb, int bit) {
+        return nb | getMaskBit(bit);
+    }
+    public static Integer unsetIthBit(Integer nb, int size, int bit) {
+        return nb & (getMaxIntFromSIze(size) ^ getMaskBit(bit));
+    }
+
+    public static int getIthBit(Integer nb, int bit) {
+        return nb & getMaskBit(bit);
     }
 
     public boolean isCompletable() {
         if (_profiler != null)
             _profiler.start("QuantumCell.isCompletable");
-        if (_entropy != null) {
-            if (_profiler != null)
-                _profiler.finish("QuantumCell.isCompletable");
-            return _entropy != 0;
-        }
-        for (boolean b : _value) {
-            if (b) {
-                if (_profiler != null)
-                    _profiler.finish("QuantumCell.isCompletable");
-                return true;
-            }
-        }
+
         if (_profiler != null)
             _profiler.finish("QuantumCell.isCompletable");
-        return false;
+        return _value != 0;
     }
 
     public int getEntropy() {
@@ -78,12 +86,8 @@ public class QuantumCell extends Cell<boolean[]> {
                 _profiler.finish("QuantumCell.getEntropy");
             return 1;
         }
+        _entropy = Integer.bitCount(_value);
 
-        _entropy = 0;
-        for (boolean b : _value) {
-            if (b)
-                _entropy++;
-        }
         if (_profiler != null)
             _profiler.finish("QuantumCell.getEntropy");
 
@@ -105,8 +109,8 @@ public class QuantumCell extends Cell<boolean[]> {
             return null;
         }
 
-        for (int i = 0; i < _value.length; i++) {
-            if (_value[i]) {
+        for (int i = 0; i < _size; i++) {
+            if (getIthBit(_value, i) == 1) {
                 _finalValue = i;
                 if (_profiler != null)
                     _profiler.finish("QuantumCell.getValue");
@@ -124,11 +128,20 @@ public class QuantumCell extends Cell<boolean[]> {
     }
 
     public boolean[] getPossibilities() {
-        return _value.clone();
+        boolean[] res = new boolean[_size];
+        for (int i = 0; i < _size; i++) {
+            res[i] = getIthBit(_value, i) == 1;
+        }
+        return res;
     }
 
     public void setPossibilities(boolean[] poss) {
-        _value = poss.clone();
+        _value = 0;
+        for (int i = 0; i < poss.length; i++) {
+            if (poss[i])
+                _value = setIthBit(_value, i);
+        }
+
         _finalValue = null;
         _entropy = null;
     }
@@ -136,25 +149,25 @@ public class QuantumCell extends Cell<boolean[]> {
     public void resetPossibilities() {
         _finalValue = null;
         _entropy = null;
-        Arrays.fill(_value, false);
+        _value = 0;
     }
 
     public void setPossibility(Integer i) {
-        if (i == null || _value[i])
+        if (i == null || getIthBit(_value, i) == 1)
             return;
         _finalValue = null;
         if (_entropy != null)
             _entropy++;
-        _value[i] = true;
+        _value = setIthBit(_value, i);
     }
 
     public void unsetPossibility(Integer i) {
-        if (i == null || !_value[i])
+        if (i == null || getIthBit(_value, i) != 1)
             return;
         _finalValue = null;
         if (_entropy != null)
             _entropy--;
-        _value[i] = false;
+        _value = unsetIthBit(_value, _size, i);
     }
 
     public void updateChecked() {
