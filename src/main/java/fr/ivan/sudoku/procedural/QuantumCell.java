@@ -19,7 +19,7 @@ public class QuantumCell extends Cell<boolean[]> {
         _value = new boolean[size];
         if (n != null) {
             _entropy = 1;
-            _finalValue = n - 1;
+            _finalValue = n;
             _value[n - 1] = true;
         } else {
             for (int i = 1; i <= _value.length; i++) {
@@ -107,7 +107,7 @@ public class QuantumCell extends Cell<boolean[]> {
 
         for (int i = 0; i < _value.length; i++) {
             if (_value[i]) {
-                _finalValue = i;
+                _finalValue = i+1;
                 if (_profiler != null)
                     _profiler.finish("QuantumCell.getValue");
                 return i;

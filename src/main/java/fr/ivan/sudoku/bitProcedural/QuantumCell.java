@@ -17,14 +17,13 @@ public class QuantumCell extends Cell<Integer> {
         _profiler = profiler;
         if (_profiler != null)
             _profiler.start("QuantumCell.QuantumCell");
-        _value = 0;
         _size = size;
         if (n != null) {
             _entropy = 1;
-            _finalValue = n - 1;
-            _value = setIthBit(_value, n-1);
+            _finalValue = n;
+            _value = setIthBit(0, n-1);
         } else {
-            _value = getMaxIntFromSIze(size);
+            _value = getMaxIntFromSize(size);
         }
         if (_profiler != null)
             _profiler.finish("QuantumCell.QuantumCell");
@@ -43,31 +42,23 @@ public class QuantumCell extends Cell<Integer> {
             _profiler.finish("QuantumCell.QuantumCell");
     }
 
-    public static Integer getMaxIntFromSIze(int size) {
+    public static Integer getMaxIntFromSize(int size) {
         return (int) Math.round(Math.pow(2, size)- 1);
     }
-
     public static int getMaskBit(int n) {
         return 1 << n;
     }
-
     public static Integer setIthBit(Integer nb, int bit) {
         return nb | getMaskBit(bit);
     }
     public static Integer unsetIthBit(Integer nb, int size, int bit) {
-        return nb & (getMaxIntFromSIze(size) ^ getMaskBit(bit));
+        return nb & ~getMaskBit(bit);
     }
-
     public static int getIthBit(Integer nb, int bit) {
         return nb & getMaskBit(bit);
     }
 
     public boolean isCompletable() {
-        if (_profiler != null)
-            _profiler.start("QuantumCell.isCompletable");
-
-        if (_profiler != null)
-            _profiler.finish("QuantumCell.isCompletable");
         return _value != 0;
     }
 
@@ -111,7 +102,7 @@ public class QuantumCell extends Cell<Integer> {
 
         for (int i = 0; i < _size; i++) {
             if (getIthBit(_value, i) == 1) {
-                _finalValue = i;
+                _finalValue = i+1;
                 if (_profiler != null)
                     _profiler.finish("QuantumCell.getValue");
                 return i;
@@ -127,20 +118,12 @@ public class QuantumCell extends Cell<Integer> {
 
     }
 
-    public boolean[] getPossibilities() {
-        boolean[] res = new boolean[_size];
-        for (int i = 0; i < _size; i++) {
-            res[i] = getIthBit(_value, i) == 1;
-        }
-        return res;
+    public Integer getPossibilities() {
+        return _value;
     }
 
-    public void setPossibilities(boolean[] poss) {
-        _value = 0;
-        for (int i = 0; i < poss.length; i++) {
-            if (poss[i])
-                _value = setIthBit(_value, i);
-        }
+    public void setPossibilities(Integer poss) {
+        _value = poss;
 
         _finalValue = null;
         _entropy = null;
@@ -149,7 +132,7 @@ public class QuantumCell extends Cell<Integer> {
     public void resetPossibilities() {
         _finalValue = null;
         _entropy = null;
-        _value = 0;
+        _value = getMaxIntFromSize(_size);
     }
 
     public void setPossibility(Integer i) {
