@@ -129,29 +129,39 @@ public class QuantumCell extends Cell<Integer> {
         _entropy = null;
     }
 
+    /**
+     * Set all possibilities to false
+     */
     public void resetPossibilities() {
         _finalValue = null;
         _entropy = null;
-        _value = getMaxIntFromSize(_size);
+        _value = 0;
     }
 
-    // TODO: Set the index of i not i as an index
-    public void setPossibility(Integer i) {
-        if (i == null || getIthBit(_value, i) == 1)
+    /**
+     * Sets the number n as a possible choice
+     * @param n the number to accept
+     */
+    public void setPossibility(Integer n) {
+        if (n == null || getIthBit(_value, n-1) == 1)
             return;
         _finalValue = null;
         if (_entropy != null)
             _entropy++;
-        _value = setIthBit(_value, i);
+        _value = setIthBit(_value, n-1);
     }
 
-    public void unsetPossibility(Integer i) {
-        if (i == null || getIthBit(_value, i) != 1)
+    /**
+     * Unsets the number n as a possible choice
+     * @param n the number to reject
+     */
+    public void unsetPossibility(Integer n) {
+        if (n == null || getIthBit(_value, n-1) != 1)
             return;
         _finalValue = null;
         if (_entropy != null)
             _entropy--;
-        _value = unsetIthBit(_value, i);
+        _value = unsetIthBit(_value, n-1);
     }
 
     public void updateChecked() {

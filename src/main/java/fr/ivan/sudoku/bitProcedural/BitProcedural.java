@@ -203,8 +203,8 @@ public class BitProcedural extends Sudoku<QuantumCell> {
 
         Integer currPoss = gridCell.getPossibilities();
         gridCell.resetPossibilities();
-        for (int i = 0; i < _lineSize; i++) {
-            if (QuantumCell.getIthBit(currPoss, i) != 1)
+        for (int i = 1; i <= _lineSize; i++) {
+            if (QuantumCell.getIthBit(currPoss, i-1) != 1)
                 continue;
             QuantumCell[][] oldGrid = CopyGrid();
 

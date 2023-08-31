@@ -38,7 +38,7 @@ public class TimeProfiler extends Profiler {
             throw new RuntimeException(getClass().getName() + ".finish(): Empty Stack No functions to record");
         String lastName = _funcNames.pop();
         if (!name.equals(lastName))
-            throw new RuntimeException(getClass().getName() + "finish(): Excpecting '" + lastName + "' but got '" + name + "'");
+            throw new RuntimeException(getClass().getName() + "finish(): Expecting '" + lastName + "' but got '" + name + "'");
 
 
         if (_funcCalls.containsKey(lastName))

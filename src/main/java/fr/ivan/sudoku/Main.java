@@ -44,11 +44,10 @@ public class Main {
         //"..62..C.E...F.B.174.8..9B.A..5......1....D8...72...96..F......4......6...CD.E..1D.E4C..5.0.2..A.72.A....F9......C83...9...5E.F.DE..6.3BD......14....E..483.1A...4....8..A..D.E2...B....A.5....80..C...7B....4...3.FE.0.8...9...A........6F....5...1.2.F.5..4D..E";
 //        PrintGrid(4, grid2);
 
-        testGrid(3, grid, false);
+//        testGrid(3, grid, false);
 //        testGrid(4, grid2, true);
 
 //        System.out.println(new FileTimeProfiler());
-
 
 
         // Need to create tests to ensure their validity....

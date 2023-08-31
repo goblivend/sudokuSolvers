@@ -7,7 +7,6 @@ import org.junit.Assert;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 public class QuantumCellTest extends TestCase {
 
@@ -102,7 +101,7 @@ public class QuantumCellTest extends TestCase {
     public void testGetPossibilitiesKnownReseted() {
         QuantumCell qc = new QuantumCell(null, 9, 4);
         qc.resetPossibilities();
-        Integer expected = 511;
+        Integer expected = 0;
         Assert.assertEquals(expected, qc.getPossibilities());
     }
 
@@ -110,20 +109,49 @@ public class QuantumCellTest extends TestCase {
     public void testSetPossibilityKnownNotSet() {
         QuantumCell qc = new QuantumCell(null, 9, 7);
         Integer expected = 65;
-        qc.setPossibility(0);
+        qc.setPossibility(1);
         Assert.assertEquals(expected, qc.getPossibilities());
     }
 
     public void testSetPossibilityKnownSet() {
         QuantumCell qc = new QuantumCell(null, 9, 7);
         Integer expected = 64;
-        qc.setPossibility(6);
+        qc.setPossibility(7);
         Assert.assertEquals(expected, qc.getPossibilities());
+        Assert.assertTrue(qc.isCompletable());
     }
     public void testSetPossibilityUnknown() {
         QuantumCell qc = new QuantumCell(null, 9, null);
         Integer expected = 511;
-        qc.setPossibilities(3);
+        qc.setPossibility(3);
         Assert.assertEquals(expected, qc.getPossibilities());
+        Assert.assertTrue(qc.isCompletable());
     }
+
+
+    public void testUnsetPossibilityFromKnownDifferent() {
+        QuantumCell qc = new QuantumCell(null, 9, 3);
+        Integer expected = 4;
+        qc.unsetPossibility(1);
+        Assert.assertEquals(expected, qc.getPossibilities());
+        Assert.assertTrue(qc.isCompletable());
+    }
+
+    public void testUnsetPossibilityFromKnownSame() {
+        QuantumCell qc = new QuantumCell(null, 9, 3);
+        Integer expected = 0;
+        qc.unsetPossibility(3);
+        Assert.assertEquals(expected, qc.getPossibilities());
+        Assert.assertFalse(qc.isCompletable());
+    }
+
+    public void testUnsetPossibilityFromUnknown() {
+        QuantumCell qc = new QuantumCell(null, 9, null);
+        Integer expected = 510;
+        qc.unsetPossibility(1);
+        Assert.assertEquals(expected, qc.getPossibilities());
+
+        Assert.assertTrue(qc.isCompletable());
+    }
+
 }
