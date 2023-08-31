@@ -51,11 +51,11 @@ public class QuantumCell extends Cell<Integer> {
     public static Integer setIthBit(Integer nb, int bit) {
         return nb | getMaskBit(bit);
     }
-    public static Integer unsetIthBit(Integer nb, int size, int bit) {
+    public static Integer unsetIthBit(Integer nb, int bit) {
         return nb & ~getMaskBit(bit);
     }
     public static int getIthBit(Integer nb, int bit) {
-        return nb & getMaskBit(bit);
+        return (nb & getMaskBit(bit)) == 0 ? 0 : 1;
     }
 
     public boolean isCompletable() {
@@ -135,6 +135,7 @@ public class QuantumCell extends Cell<Integer> {
         _value = getMaxIntFromSize(_size);
     }
 
+    // TODO: Set the index of i not i as an index
     public void setPossibility(Integer i) {
         if (i == null || getIthBit(_value, i) == 1)
             return;
@@ -150,7 +151,7 @@ public class QuantumCell extends Cell<Integer> {
         _finalValue = null;
         if (_entropy != null)
             _entropy--;
-        _value = unsetIthBit(_value, _size, i);
+        _value = unsetIthBit(_value, i);
     }
 
     public void updateChecked() {

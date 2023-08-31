@@ -7,6 +7,7 @@ import org.junit.Assert;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class QuantumCellTest extends TestCase {
 
@@ -38,8 +39,91 @@ public class QuantumCellTest extends TestCase {
     }
 
     public void testUnsetIthBit() {
+        List<Point> inputs = Arrays.asList(new Point(0, 0), new Point(1, 0), new Point(5, 2));
+        List<Integer> expected = Arrays.asList(0, 0, 1);
+
+        List<Integer> actual = inputs.stream().map(e -> QuantumCell.unsetIthBit(e.x, e.y)).toList();
+
+        Assert.assertArrayEquals(expected.toArray(), actual.toArray());
     }
 
     public void testGetIthBit() {
+        List<Point> inputs = Arrays.asList(new Point(0, 0), new Point(1, 0), new Point(5, 2), new Point(3, 3));
+        List<Integer> expected = Arrays.asList(0, 1, 1, 0);
+
+        List<Integer> actual = inputs.stream().map(e -> QuantumCell.getIthBit(e.x, e.y)).toList();
+
+        Assert.assertArrayEquals(expected.toArray(), actual.toArray());
+    }
+
+
+    public void testIsCompletableTrueUnknown() {
+        QuantumCell qc = new QuantumCell(null, 9, null);
+        Assert.assertTrue(qc.isCompletable());
+    }
+
+    public void testIsCompletableTrueKnown() {
+        QuantumCell qc = new QuantumCell(null, 9, 4);
+        Assert.assertTrue(qc.isCompletable());
+    }
+
+    public void testGetEntropyKnown() {
+        QuantumCell qc = new QuantumCell(null, 9, 4);
+        Assert.assertEquals(1, qc.getEntropy());
+    }
+
+    public void testGetEntropyUnknown() {
+        QuantumCell qc = new QuantumCell(null, 9, null);
+        Assert.assertEquals(9, qc.getEntropy());
+    }
+
+    public void testGetValueKnown() {
+        QuantumCell qc = new QuantumCell(null, 9, 4);
+        Integer expected = 4;
+        Assert.assertEquals(expected, qc.getValue());
+    }
+    public void testGetValueUnknown() {
+        QuantumCell qc = new QuantumCell(null, 9, null);
+        Assert.assertNull(qc.getValue());
+    }
+
+    public void testGetPossibilitiesKnown() {
+        QuantumCell qc = new QuantumCell(null, 9, 4);
+        Integer expected = 8;
+        Assert.assertEquals(expected, qc.getPossibilities());
+    }
+
+    public void testGetPossibilitiesUnknown() {
+        QuantumCell qc = new QuantumCell(null, 9, null);
+        Integer expected = 511;
+        Assert.assertEquals(expected, qc.getPossibilities());
+    }
+
+    public void testGetPossibilitiesKnownReseted() {
+        QuantumCell qc = new QuantumCell(null, 9, 4);
+        qc.resetPossibilities();
+        Integer expected = 511;
+        Assert.assertEquals(expected, qc.getPossibilities());
+    }
+
+
+    public void testSetPossibilityKnownNotSet() {
+        QuantumCell qc = new QuantumCell(null, 9, 7);
+        Integer expected = 65;
+        qc.setPossibility(0);
+        Assert.assertEquals(expected, qc.getPossibilities());
+    }
+
+    public void testSetPossibilityKnownSet() {
+        QuantumCell qc = new QuantumCell(null, 9, 7);
+        Integer expected = 64;
+        qc.setPossibility(6);
+        Assert.assertEquals(expected, qc.getPossibilities());
+    }
+    public void testSetPossibilityUnknown() {
+        QuantumCell qc = new QuantumCell(null, 9, null);
+        Integer expected = 511;
+        qc.setPossibilities(3);
+        Assert.assertEquals(expected, qc.getPossibilities());
     }
 }
