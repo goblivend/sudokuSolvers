@@ -110,7 +110,7 @@ public class QuantumCell extends Cell<boolean[]> {
                 _finalValue = i+1;
                 if (_profiler != null)
                     _profiler.finish("QuantumCell.getValue");
-                return i;
+                return i+1;
             }
         }
         if (_profiler != null)
@@ -139,22 +139,22 @@ public class QuantumCell extends Cell<boolean[]> {
         Arrays.fill(_value, false);
     }
 
-    public void setPossibility(Integer i) {
-        if (i == null || _value[i])
+    public void setPossibility(Integer n) {
+        if (n == null || _value[n-1])
             return;
         _finalValue = null;
         if (_entropy != null)
             _entropy++;
-        _value[i] = true;
+        _value[n-1] = true;
     }
 
-    public void unsetPossibility(Integer i) {
-        if (i == null || !_value[i])
+    public void unsetPossibility(Integer n) {
+        if (n == null || !_value[n-1])
             return;
         _finalValue = null;
         if (_entropy != null)
             _entropy--;
-        _value[i] = false;
+        _value[n-1] = false;
     }
 
     public void updateChecked() {

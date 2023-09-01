@@ -54,6 +54,8 @@ public class Procedural extends Sudoku<QuantumCell> {
         }
         do {
             Point p = getCell();
+            if (p == null)
+                break;
             if (_grid[p.y][p.x].getEntropy() != 1)
                 break;
             _grid[p.y][p.x].updateChecked();
@@ -204,18 +206,18 @@ public class Procedural extends Sudoku<QuantumCell> {
 
         boolean[] currPoss = gridCell.getPossibilities();
         gridCell.resetPossibilities();
-        for (int i = 0; i < _lineSize; i++) {
-            if (!currPoss[i])
+        for (int n = 1; n <= _lineSize; n++) {
+            if (!currPoss[n-1])
                 continue;
             QuantumCell[][] oldGrid = CopyGrid();
 
-            gridCell.setPossibility(i);
+            gridCell.setPossibility(n);
             if (Propagate(cell.x, cell.y) && SolveRec()) {
                 if (_profiler != null)
                     _profiler.finish("Procedural.SolveRec");
                 return true;
             }
-//            gridCell.unsetPossibility(i);
+
             _grid = oldGrid;
             gridCell = _grid[cell.y][cell.x];
         }
@@ -241,11 +243,11 @@ public class Procedural extends Sudoku<QuantumCell> {
             for (int x = 0; x < _lineSize; x++) {
                 boolean[] currPoss = _grid[y][x].getPossibilities();
                 _grid[y][x].resetPossibilities();
-                for (int i = 0; i < _lineSize; i++) {
-                    if (!currPoss[i])
+                for (int n = 1; n <= _lineSize; n++) {
+                    if (!currPoss[n-1])
                         continue;
                     QuantumCell[][] oldGrid = CopyGrid();
-                    _grid[y][x].setPossibility(i);
+                    _grid[y][x].setPossibility(n);
 
                     bt.SetGrid(this.toString(), _size);
 
