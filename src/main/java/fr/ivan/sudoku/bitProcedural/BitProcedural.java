@@ -206,12 +206,12 @@ public class BitProcedural extends Sudoku<QuantumCell> {
 
         Integer currPoss = gridCell.getPossibilities();
         gridCell.resetPossibilities();
-        for (int i = 1; i <= _lineSize; i++) {
-            if (QuantumCell.getIthBit(currPoss, i-1) != 1)
+        for (int n = 1; n <= _lineSize; n++) {
+            if (QuantumCell.getIthBit(currPoss, n-1) != 1)
                 continue;
             QuantumCell[][] oldGrid = CopyGrid();
 
-            gridCell.setPossibility(i);
+            gridCell.setPossibility(n);
             if (Propagate(cell.x, cell.y) && SolveRec()) {
                 if (_profiler != null)
                     _profiler.finish("Procedural.SolveRec");
@@ -242,11 +242,11 @@ public class BitProcedural extends Sudoku<QuantumCell> {
             for (int x = 0; x < _lineSize; x++) {
                 Integer currPoss = _grid[y][x].getPossibilities();
                 _grid[y][x].resetPossibilities();
-                for (int i = 0; i < _lineSize; i++) {
-                    if (QuantumCell.getIthBit(currPoss, i) != 1)
+                for (int n = 1; n <= _lineSize; n++) {
+                    if (QuantumCell.getIthBit(currPoss, n-1) != 1)
                         continue;
                     QuantumCell[][] oldGrid = CopyGrid();
-                    _grid[y][x].setPossibility(i);
+                    _grid[y][x].setPossibility(n);
 
                     bt.SetGrid(this.toString(), _size);
 

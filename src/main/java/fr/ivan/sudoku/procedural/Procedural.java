@@ -3,7 +3,6 @@ package fr.ivan.sudoku.procedural;
 import fr.ivan.profiler.Profiler;
 import fr.ivan.sudoku.Sudoku;
 import fr.ivan.sudoku.backtracking.Backtracking;
-import fr.ivan.sudoku.backtracking.IntCell;
 import fr.ivan.sudoku.util.Utils;
 
 import java.awt.Point;
@@ -54,6 +53,7 @@ public class Procedural extends Sudoku<QuantumCell> {
         }
 //        do {
 //            Point p = getCell();
+//            // if Solved :
 //            if (p == null)
 //                break;
 //            if (_grid[p.y][p.x].getEntropy() != 1)
@@ -217,7 +217,6 @@ public class Procedural extends Sudoku<QuantumCell> {
                     _profiler.finish("Procedural.SolveRec");
                 return true;
             }
-
             _grid = oldGrid;
             gridCell = _grid[cell.y][cell.x];
         }
