@@ -51,18 +51,18 @@ public class BitProcedural extends Sudoku<QuantumCell> {
                 }
             }
         }
-        do {
-            Point p = getCell();
-            // if Solved :
-            if (p == null)
-                break;
-            if (_grid[p.y][p.x].getEntropy() != 1)
-                break;
-            _grid[p.y][p.x].updateChecked();
-            if (!Propagate(p.x, p.y))
-                throw new RuntimeException(getClass().getName() + ".SetGrid(): Unsolvable Sudoku");
-
-        } while (true);
+//        do {
+//            Point p = getCell();
+//            // if Solved :
+//            if (p == null)
+//                break;
+//            if (_grid[p.y][p.x].getEntropy() != 1)
+//                break;
+//            _grid[p.y][p.x].updateChecked();
+//            if (!Propagate(p.x, p.y))
+//                throw new RuntimeException(getClass().getName() + ".SetGrid(): Unsolvable Sudoku");
+//
+//        } while (true);
         if (_profiler != null)
             _profiler.finish("Procedural.SetGrid");
     }
