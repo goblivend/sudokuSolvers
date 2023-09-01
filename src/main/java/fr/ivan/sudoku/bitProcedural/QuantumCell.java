@@ -105,7 +105,7 @@ public class QuantumCell extends Cell<Integer> {
                 _finalValue = i+1;
                 if (_profiler != null)
                     _profiler.finish("QuantumCell.getValue");
-                return i;
+                return i+1;
             }
         }
         if (_profiler != null)

@@ -51,12 +51,18 @@ public class TimeProfiler extends Profiler {
     @Override
     public String toString() {
         StringBuilder res = new StringBuilder();
+        long total = 0;
+        for (var kv: _funcCalls.entrySet())
+            total += kv.getValue();
+        long decTotal = total % 1000000000;
+        String decStrTotal = "" + decTotal;
+        res.append("total" + " ".repeat(32 - 5) + " :" + total/1000000000 + "." + ("0".repeat(9-decStrTotal.length()))  + decStrTotal + "s\n");
         for (var kv: _funcCalls.entrySet()) {
             int len = kv.getKey().length();
             long dec = kv.getValue() % 1000000000;
             String decStr = "" + dec;
-
-            res.append(kv.getKey() + " ".repeat(32 - len) + " :" + kv.getValue()/1000000000 + "." + ("0".repeat(9-decStr.length()))  + decStr + "s\n");
+            double percent = ((double)((long)((double) kv.getValue() /total * 10000)))/100;
+            res.append(kv.getKey() + " ".repeat(32 - len) + " :" + kv.getValue()/1000000000 + "." + ("0".repeat(9-decStr.length()))  + decStr + "s " + percent+  "%\n");
         }
         return res.toString();
     }

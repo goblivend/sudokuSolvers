@@ -26,7 +26,7 @@ public class Main {
     static void testGrid(int size, String grid, boolean profiling){
         testGridForSudoku(size, grid, new Procedural(), profiling);
         testGridForSudoku(size, grid, new BitProcedural(), profiling);
-        testGridForSudoku(size, grid, new Backtracking(), profiling);
+//        testGridForSudoku(size, grid, new Backtracking(), profiling);
     }
 
     static void PrintGrid(int size, String grid) {
@@ -48,8 +48,8 @@ public class Main {
 //        PrintGrid(4, grid2);
 
 //        testGrid(3, grid, true);
-//        testGrid(4, grid2, true);
-        testGrid(4, grid3, true);
+        testGrid(4, grid2, true);
+//        testGrid(4, grid3, true);
 
 //        System.out.println(new FileTimeProfiler());
 

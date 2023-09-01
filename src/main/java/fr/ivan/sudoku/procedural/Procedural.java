@@ -150,8 +150,11 @@ public class Procedural extends Sudoku<QuantumCell> {
         Point res = null;
         for (int y = 0; y < _lineSize; y++) {
             for (int x = 0; x < _lineSize; x++) {
+                // If checked no need to calculate entropy (even though should be fast)
+                if (_grid[y][x].isChecked())
+                    continue;
                 int entropy = _grid[y][x].getEntropy();
-                if (!_grid[y][x].isChecked() && entropy < minEntropy) {
+                if (entropy < minEntropy) {
                     minEntropy = entropy;
                     res = new Point(x, y);
                 }

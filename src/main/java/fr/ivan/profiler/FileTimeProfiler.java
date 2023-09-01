@@ -102,11 +102,6 @@ public class FileTimeProfiler extends Profiler {
            .append(_funcNames.size())
            .append("\n");
 
-//        for (var k : _funcNames) {
-//            System.out.print(k.getLeft());
-//            System.out.println(k.getRight());
-//        }
-//        res.append("end\n");
         for (var kv: funMap.entrySet()) {
             int len = kv.getKey().length();
 
