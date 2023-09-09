@@ -30,7 +30,7 @@ public class BitProcedural extends Sudoku<QuantumCell> {
     public void SetGrid(String grid, int size, Profiler profiler) {
         super.SetGrid(grid, size, profiler);
         if (_profiler != null)
-            _profiler.start("Procedural.SetGrid");
+            _profiler.start( "BitProcedural.SetGrid");
 
         for (int y = 0; y < _lineSize; y++) {
             for (int x = 0; x < _lineSize; x++) {
@@ -64,7 +64,7 @@ public class BitProcedural extends Sudoku<QuantumCell> {
 //
 //        } while (true);
         if (_profiler != null)
-            _profiler.finish("Procedural.SetGrid");
+            _profiler.finish( "BitProcedural.SetGrid");
     }
 
     @Override
@@ -75,10 +75,10 @@ public class BitProcedural extends Sudoku<QuantumCell> {
 
     public boolean PropagateCell(int x, int y, int oldX, int oldY) {
         if (_profiler != null)
-            _profiler.start("Procedural.PropagateCell");
+            _profiler.start( "BitProcedural.PropagateCell");
         if (x == oldX && y == oldY) {
             if (_profiler != null)
-                _profiler.finish("Procedural.PropagateCell");
+                _profiler.finish( "BitProcedural.PropagateCell");
             return true;
         }
 
@@ -86,56 +86,56 @@ public class BitProcedural extends Sudoku<QuantumCell> {
         boolean res = _grid[y][x].isCompletable();
 
         if (_profiler != null)
-            _profiler.finish("Procedural.PropagateCell");
+            _profiler.finish( "BitProcedural.PropagateCell");
         return res;
     }
 
     public boolean PropagateLine(int oldX, int y) {
         if (_profiler != null)
-            _profiler.start("Procedural.PropagateLine");
+            _profiler.start( "BitProcedural.PropagateLine");
         for (int x = 0; x < _lineSize; x++) {
             if (!PropagateCell(x, y, oldX, y)) {
                 if (_profiler != null)
-                    _profiler.finish("Procedural.PropagateLine");
+                    _profiler.finish( "BitProcedural.PropagateLine");
                 return false;
             }
         }
         if (_profiler != null)
-            _profiler.finish("Procedural.PropagateLine");
+            _profiler.finish( "BitProcedural.PropagateLine");
         return true;
     }
 
     public boolean PropagateCol(int x, int oldY) {
         if (_profiler != null)
-            _profiler.start("Procedural.PropagateCol");
+            _profiler.start( "BitProcedural.PropagateCol");
         for (int y = 0; y < _lineSize; y++) {
             if (!PropagateCell(x, y, x, oldY)) {
                 if (_profiler != null)
-                    _profiler.finish("Procedural.PropagateCol");
+                    _profiler.finish("BitProcedural.PropagateCol");
                 return false;
             }
         }
         if (_profiler != null)
-            _profiler.finish("Procedural.PropagateCol");
+            _profiler.finish("BitProcedural.PropagateCol");
         return true;
     }
 
     public boolean PropagateBlock(int x, int y) {
         if (_profiler != null)
-            _profiler.start("Procedural.PropagateBlock");
+            _profiler.start("BitProcedural.PropagateBlock");
         for (int dy = 0; dy < _size; dy++) {
             for (int dx = 0; dx < _size; dx++) {
                 int newX = (x / _size) * _size + dx;
                 int newY = (y / _size) * _size + dy;
                 if (!PropagateCell(newX, newY, x, y)) {
                     if (_profiler != null)
-                        _profiler.finish("Procedural.PropagateBlock");
+                        _profiler.finish("BitProcedural.PropagateBlock");
                     return false;
                 }
             }
         }
         if (_profiler != null)
-            _profiler.finish("Procedural.PropagateBlock");
+            _profiler.finish("BitProcedural.PropagateBlock");
         return true;
     }
 
@@ -145,7 +145,7 @@ public class BitProcedural extends Sudoku<QuantumCell> {
 
     Point getCell() {
         if (_profiler != null)
-            _profiler.start("Procedural.getCell");
+            _profiler.start("BitProcedural.getCell");
         int minEntropy = _lineSize + 1;
         Point res = null;
         for (int y = 0; y < _lineSize; y++) {
@@ -161,13 +161,13 @@ public class BitProcedural extends Sudoku<QuantumCell> {
             }
         }
         if (_profiler != null)
-            _profiler.finish("Procedural.getCell");
+            _profiler.finish("BitProcedural.getCell");
         return res;
     }
 
     QuantumCell[][] CopyGrid() {
         if (_profiler != null)
-            _profiler.start("Procedural.CopyGrid");
+            _profiler.start("BitProcedural.CopyGrid");
         QuantumCell[][] copy = new QuantumCell[_lineSize][_lineSize];
 
         for (int x = 0; x < _lineSize; x++) {
@@ -176,24 +176,24 @@ public class BitProcedural extends Sudoku<QuantumCell> {
             }
         }
         if (_profiler != null)
-            _profiler.finish("Procedural.CopyGrid");
+            _profiler.finish("BitProcedural.CopyGrid");
         return copy;
     }
 
     boolean SolveRec() {
         if (_profiler != null)
-            _profiler.start("Procedural.SolveRec");
+            _profiler.start("BitProcedural.SolveRec");
         Point cell = getCell();
         if (cell == null) {
             if (_profiler != null)
-                _profiler.finish("Procedural.SolveRec");
+                _profiler.finish("BitProcedural.SolveRec");
             return true;
         }
 
         QuantumCell gridCell = _grid[cell.y][cell.x];
         if (!gridCell.isCompletable()) {
             if (_profiler != null)
-                _profiler.finish("Procedural.SolveRec");
+                _profiler.finish("BitProcedural.SolveRec");
             return false;
         }
 
@@ -203,7 +203,7 @@ public class BitProcedural extends Sudoku<QuantumCell> {
             if (!res)
                 gridCell.updateChecked();
             if (_profiler != null)
-                _profiler.finish("Procedural.SolveRec");
+                _profiler.finish("BitProcedural.SolveRec");
             return res;
         }
 
@@ -217,7 +217,7 @@ public class BitProcedural extends Sudoku<QuantumCell> {
             gridCell.setPossibility(n);
             if (Propagate(cell.x, cell.y) && SolveRec()) {
                 if (_profiler != null)
-                    _profiler.finish("Procedural.SolveRec");
+                    _profiler.finish("BitProcedural.SolveRec");
                 return true;
             }
             _grid = oldGrid;
@@ -226,7 +226,7 @@ public class BitProcedural extends Sudoku<QuantumCell> {
         gridCell.setPossibilities(currPoss);
         gridCell.updateChecked();
         if (_profiler != null)
-            _profiler.finish("Procedural.SolveRec");
+            _profiler.finish("BitProcedural.SolveRec");
         return false;
     }
 
@@ -239,7 +239,7 @@ public class BitProcedural extends Sudoku<QuantumCell> {
 
     public boolean CheckValidity() {
         if (_profiler != null)
-            _profiler.start("Procedural.CheckValidity");
+            _profiler.start("BitProcedural.CheckValidity");
         Backtracking bt = new Backtracking();
         for (int y = 0; y < _lineSize; y++) {
             for (int x = 0; x < _lineSize; x++) {
@@ -254,7 +254,7 @@ public class BitProcedural extends Sudoku<QuantumCell> {
                     bt.SetGrid(this.toString(), _size);
 
                     if (!bt.isValid()) {
-                        _profiler.finish("Procedural.CheckValidity");
+                        _profiler.finish("BitProcedural.CheckValidity");
                         return false;
                     }
 
@@ -265,7 +265,7 @@ public class BitProcedural extends Sudoku<QuantumCell> {
             }
         }
         if (_profiler != null)
-            _profiler.finish("Procedural.CheckValidity");
+            _profiler.finish("BitProcedural.CheckValidity");
         return true;
     }
 
