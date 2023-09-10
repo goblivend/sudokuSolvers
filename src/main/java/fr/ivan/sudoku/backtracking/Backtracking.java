@@ -11,7 +11,7 @@ public class Backtracking extends Sudoku<IntCell> {
 
     @Override
     protected IntCell initT(char c) {
-        return new IntCell(_lineSize, Utils.HexToInt(c));
+        return new IntCell(_lineSize, Utils.CharToInt(_alphabet, c));
     }
 
     @Override
@@ -85,12 +85,12 @@ public class Backtracking extends Sudoku<IntCell> {
     }
 
     public boolean isValid() {
-//        for (int x = 0; x < _lineSize; x++) {
-//            for (int y = 0; y < _lineSize; y++) {
-//                if (!CheckCol(x, y) || !CheckLine(x, y) || !CheckBlock(x, y))
-//                    return false;
-//            }
-//        }
+        for (int x = 0; x < _lineSize; x++) {
+            for (int y = 0; y < _lineSize; y++) {
+                if (!CheckCol(x, y) || !CheckLine(x, y) || !CheckBlock(x, y))
+                    return false;
+            }
+        }
         return true;
     }
 

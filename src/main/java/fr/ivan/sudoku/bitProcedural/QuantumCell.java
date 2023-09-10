@@ -10,7 +10,6 @@ public class QuantumCell extends Cell<Integer> {
     private boolean _checked = false;
     private Integer _entropy;
     private Integer _finalValue;
-    private int _size;
     private final Profiler _profiler;
 
     QuantumCell(Profiler profiler, int size, Integer n) {

@@ -12,7 +12,7 @@ public class Procedural extends Sudoku<QuantumCell> {
 
     @Override
     protected QuantumCell initT(char c) {
-        return new QuantumCell(_profiler, _lineSize, Utils.HexToInt(c));
+        return new QuantumCell(_profiler, _lineSize, Utils.CharToInt(_alphabet, c));
     }
 
     @Override
@@ -22,13 +22,13 @@ public class Procedural extends Sudoku<QuantumCell> {
 
 
     @Override
-    public void SetGrid(String grid, int size) {
-        SetGrid(grid, size, null);
+    public void SetGrid(String grid, String alphabet, int size) {
+        SetGrid(grid, alphabet, size, null);
     }
 
     @Override
-    public void SetGrid(String grid, int size, Profiler profiler) {
-        super.SetGrid(grid, size, profiler);
+    public void SetGrid(String grid, String alphabet, int size, Profiler profiler) {
+        super.SetGrid(grid, alphabet, size, profiler);
         if (_profiler != null)
             _profiler.start("Procedural.SetGrid");
 
@@ -51,18 +51,7 @@ public class Procedural extends Sudoku<QuantumCell> {
                 }
             }
         }
-//        do {
-//            Point p = getCell();
-//            // if Solved :
-//            if (p == null)
-//                break;
-//            if (_grid[p.y][p.x].getEntropy() != 1)
-//                break;
-//            _grid[p.y][p.x].updateChecked();
-//            if (!Propagate(p.x, p.y))
-//                throw new RuntimeException(getClass().getName() + ".SetGrid(): Unsolvable Sudoku");
-//
-//        } while (true);
+
         if (_profiler != null)
             _profiler.finish("Procedural.SetGrid");
     }
@@ -232,7 +221,7 @@ public class Procedural extends Sudoku<QuantumCell> {
 
     @Override
     public void Solve() {
-        System.out.println("Validity : " + CheckValidity());
+//        System.out.println("Validity : " + CheckValidity());
         System.out.println("Solve Res : " + SolveRec());
         System.out.println(_profiler);
     }
@@ -251,7 +240,7 @@ public class Procedural extends Sudoku<QuantumCell> {
                     QuantumCell[][] oldGrid = CopyGrid();
                     _grid[y][x].setPossibility(n);
 
-                    bt.SetGrid(this.toString(), _size);
+                    bt.SetGrid(this.toString(), _alphabet, _size);
 
                     if (!bt.isValid()) {
                         _profiler.finish("Procedural.CheckValidity");
@@ -267,22 +256,5 @@ public class Procedural extends Sudoku<QuantumCell> {
         if (_profiler != null)
             _profiler.finish("Procedural.CheckValidity");
         return true;
-    }
-
-    @Override
-    public String toString() {
-        if (_profiler != null)
-            _profiler.start("Procedural.toString");
-
-        StringBuilder res = new StringBuilder();
-
-        for (int y = 0; y < _lineSize; y++) {
-            for (int x = 0; x < _lineSize; x++) {
-                res.append(_grid[y][x]);
-            }
-        }
-        if (_profiler != null)
-            _profiler.finish("Procedural.toString");
-        return res.toString();
     }
 }

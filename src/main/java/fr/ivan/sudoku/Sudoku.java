@@ -7,6 +7,10 @@ import fr.ivan.profiler.*;
 public abstract class Sudoku<T extends Cell> {
 
     protected T[][] _grid;
+    protected String _alphabet;
+    /**
+     * Help for pretty printing
+     */
     protected Integer _size;
     protected Integer _lineSize;
     protected Profiler _profiler;
@@ -15,20 +19,28 @@ public abstract class Sudoku<T extends Cell> {
 
     protected abstract void initGrid();
 
-    public void SetGrid(String grid, int size) {
-        SetGrid(grid, size, null);
+    public void SetGrid(String grid, String alphabet, int size) {
+        SetGrid(grid, alphabet, size, null);
     }
 
-    public void SetGrid(String grid, int size, Profiler profiler) {
+    public void setAlphabet(String alphabet) {
+        _alphabet = alphabet;
+    }
+
+    public void SetGrid(String grid, String alphabet, int size, Profiler profiler) {
         _profiler = profiler;
         if (_profiler != null)
             _profiler.start("Sudoku.SetGrid");
+        _alphabet = alphabet;
         _size = size;
         _lineSize = _size * _size;
         initGrid();
         int nbElt = _lineSize * _lineSize;
         if (grid.length() != nbElt)
-            throw new RuntimeException(this.getClass().getName() + ".SetGrid(): Invalid grid not containing 81 cols: " + grid.length() + " and should be : " + nbElt);
+            throw new RuntimeException(this.getClass().getName() + ".SetGrid(): Invalid grid not containing the good number of cols: " + grid.length() + " and should be : " + nbElt);
+
+        if (alphabet.length() != _lineSize+1)
+            throw new RuntimeException(this.getClass().getName() + ".SetGrid(): Invalid alphabet not containing enough chars: " + alphabet.length() + " and should be : " + _lineSize + " + 1 for blank");
 
         for (int i = 0; i < grid.length(); i++) {
             char c = grid.charAt(i);
@@ -52,7 +64,7 @@ public abstract class Sudoku<T extends Cell> {
             for (int x = 0; x < _lineSize; x++) {
                 if (x % _size == 0)
                     System.out.print("| ");
-                System.out.print(_grid[y][x] + " ");
+                System.out.print(_grid[y][x].toString(_alphabet) + " ");
             }
             System.out.println("|");
         }
@@ -66,7 +78,6 @@ public abstract class Sudoku<T extends Cell> {
     public boolean CheckLine(int oldX, int y) {
         if (_profiler != null)
             _profiler.start("Sudoku.CheckLine");
-//        boolean[] found = new boolean[_lineSize];
 
         for (int x = 0; x < _lineSize; x++) {
             if (!CheckCell(x, y, oldX, y)) {
@@ -74,11 +85,6 @@ public abstract class Sudoku<T extends Cell> {
                     _profiler.finish("Sudoku.CheckLine");
                 return false;
             }
-//            if (_grid[y][x].getValue() == null)
-//                continue;
-//            if (found[_grid[y][x].getValue()-1])
-//                return false;
-//            found[_grid[y][x].getValue() -1] = true;
         }
         if (_profiler != null)
             _profiler.finish("Sudoku.CheckLine");
@@ -89,8 +95,6 @@ public abstract class Sudoku<T extends Cell> {
     public boolean CheckCol(int x, int oldY) {
         if (_profiler != null)
             _profiler.start("Sudoku.CheckCol");
-//        boolean[] found = new boolean[_lineSize];
-//        boolean[] found = new boolean[_lineSize];
 
         for (int y = 0; y < _lineSize; y++) {
             if (!CheckCell(x, y, x, oldY)) {
@@ -98,11 +102,6 @@ public abstract class Sudoku<T extends Cell> {
                     _profiler.finish("Sudoku.CheckCol");
                 return false;
             }
-//            if (_grid[y][x].getValue() == null)
-//                continue;
-//            if (found[_grid[y][x].getValue()-1])
-//                return false;
-//            found[_grid[y][x].getValue() -1] = true;
         }
         if (_profiler != null)
             _profiler.finish("Sudoku.CheckCol");
@@ -113,7 +112,7 @@ public abstract class Sudoku<T extends Cell> {
     public boolean CheckBlock(int x, int y) {
         if (_profiler != null)
             _profiler.start("Sudoku.CheckBlock");
-//        boolean[] found = new boolean[_lineSize];
+
         for (int dy = 0; dy < _size; dy++) {
             for (int dx = 0; dx < _size; dx++) {
                 int newX = _size * x + dx;
@@ -123,11 +122,6 @@ public abstract class Sudoku<T extends Cell> {
                         _profiler.finish("Sudoku.CheckBlock");
                     return false;
                 }
-//                if (_grid[newY][newX].getValue() == null)
-//                    continue;
-//                if (found[_grid[newY][newX].getValue()-1])
-//                    return false;
-//                found[_grid[newY][newX].getValue() -1] = true;
             }
         }
         if (_profiler != null)
@@ -151,7 +145,7 @@ public abstract class Sudoku<T extends Cell> {
 
         for (int y = 0; y < _lineSize; y++) {
             for (int x = 0; x < _lineSize; x++) {
-                res.append(Utils.IntToChar(_grid[y][x].getValue()));
+                res.append(Utils.IntToChar(_alphabet, _grid[y][x].getValue()));
             }
         }
         if (_profiler != null)

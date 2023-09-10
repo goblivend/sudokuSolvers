@@ -16,6 +16,7 @@ public class QuantumCell extends Cell<boolean[]> {
         _profiler = profiler;
         if (_profiler != null)
             _profiler.start("QuantumCell.QuantumCell");
+        _size = size;
         _value = new boolean[size];
         if (n != null) {
             _entropy = 1;
@@ -34,6 +35,7 @@ public class QuantumCell extends Cell<boolean[]> {
         _profiler = profiler;
         if (_profiler != null)
             _profiler.start("QuantumCell.QuantumCell");
+        _size = c._size;
         _value = new boolean[c._value.length];
         _finalValue = c._finalValue;
         System.arraycopy(c._value, 0, _value, 0, _value.length);
