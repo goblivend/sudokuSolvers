@@ -146,6 +146,11 @@ public class Procedural extends Sudoku<QuantumCell> {
                 if (entropy < minEntropy) {
                     minEntropy = entropy;
                     res = new Point(x, y);
+                    if (entropy == 1) {
+                        if (_profiler != null)
+                            _profiler.finish("BitProcedural.getCell");
+                        return res;
+                    }
                 }
             }
         }
