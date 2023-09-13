@@ -3,6 +3,7 @@ package fr.ivan.sudoku.procedural;
 import fr.ivan.profiler.Profiler;
 import fr.ivan.sudoku.Sudoku;
 import fr.ivan.sudoku.backtracking.Backtracking;
+
 import fr.ivan.sudoku.util.Utils;
 
 import java.awt.Point;
@@ -22,6 +23,7 @@ public class Procedural extends Sudoku<QuantumCell> {
 
 
     @Override
+
     public void SetGrid(String grid, String alphabet, int size) {
         SetGrid(grid, alphabet, size, null);
     }
@@ -44,9 +46,9 @@ public class Procedural extends Sudoku<QuantumCell> {
         for (int y = 0; y < _lineSize; y++) {
             for (int x = 0; x < _lineSize; x++) {
                 int i = x + _lineSize * y;
-
                 if (grid.charAt(i) != ' ' && grid.charAt(i) != '.') {
                     if (!Propagate(x, y))
+
                         throw new RuntimeException(getClass().getName() + ".SetGrid(): Unsolvable Sudoku");
                 }
             }
@@ -156,21 +158,25 @@ public class Procedural extends Sudoku<QuantumCell> {
         }
         if (_profiler != null)
             _profiler.finish("Procedural.getCell");
+      
         return res;
     }
 
     QuantumCell[][] CopyGrid() {
         if (_profiler != null)
             _profiler.start("Procedural.CopyGrid");
+
         QuantumCell[][] copy = new QuantumCell[_lineSize][_lineSize];
 
         for (int x = 0; x < _lineSize; x++) {
             for (int y = 0; y < _lineSize; y++) {
+
                 copy[y][x] = new QuantumCell(_profiler, _grid[y][x]);
             }
         }
         if (_profiler != null)
             _profiler.finish("Procedural.CopyGrid");
+
         return copy;
     }
 
@@ -198,6 +204,7 @@ public class Procedural extends Sudoku<QuantumCell> {
                 gridCell.updateChecked();
             if (_profiler != null)
                 _profiler.finish("Procedural.SolveRec");
+
             return res;
         }
 
@@ -221,6 +228,7 @@ public class Procedural extends Sudoku<QuantumCell> {
         gridCell.updateChecked();
         if (_profiler != null)
             _profiler.finish("Procedural.SolveRec");
+
         return false;
     }
 
@@ -234,6 +242,7 @@ public class Procedural extends Sudoku<QuantumCell> {
     public boolean CheckValidity() {
         if (_profiler != null)
             _profiler.start("Procedural.CheckValidity");
+      
         Backtracking bt = new Backtracking();
         for (int y = 0; y < _lineSize; y++) {
             for (int x = 0; x < _lineSize; x++) {
