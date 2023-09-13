@@ -4,10 +4,8 @@ import fr.ivan.sudoku.util.Cell;
 import fr.ivan.sudoku.util.Utils;
 
 public class IntCell extends Cell<Integer> {
-
-    private Integer _lineSize;
-
-    IntCell(Integer lineSize, Integer value) {
+    IntCell(Integer size, Integer value) {
+        _size = size;
         _value = value;
     }
     @Override

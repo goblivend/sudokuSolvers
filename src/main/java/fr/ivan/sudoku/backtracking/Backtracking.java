@@ -11,7 +11,7 @@ public class Backtracking extends Sudoku<IntCell> {
 
     @Override
     protected IntCell initT(char c) {
-        return new IntCell(_lineSize, Utils.HexToInt(c));
+        return new IntCell(_lineSize, Utils.CharToInt(_alphabet, c));
     }
 
     @Override
@@ -19,6 +19,7 @@ public class Backtracking extends Sudoku<IntCell> {
         _grid = new IntCell[_lineSize][_lineSize];
     }
 
+    @Override
     public boolean CheckCell(int x, int y, int oldX, int oldY) {
         if(x == oldX && y == oldY)
             return true;
@@ -29,24 +30,41 @@ public class Backtracking extends Sudoku<IntCell> {
         return !_grid[y][x].getValue().equals(_grid[oldY][oldX].getValue());
     }
 
+    @Override
     public boolean CheckCol(int oldX, int y)
     {
+//        boolean[] found = new boolean[_lineSize];
+
         for (int x = 0; x < _lineSize; x++) {
             if (!CheckCell(x, y, oldX, y))
                 return false;
+//            if (_grid[y][x].getValue() == null)
+//                continue;
+//            if (found[_grid[y][x].getValue()-1])
+//                return false;
+//            found[_grid[y][x].getValue() -1] = true;
         }
         return  true;
     }
 
+    @Override
     public boolean CheckLine(int x, int oldY)
     {
+//        boolean[] found = new boolean[_lineSize];
+
         for (int y = 0; y < _lineSize; y++) {
             if (!CheckCell(x, y, x, oldY))
                 return false;
+//            if (_grid[y][x].getValue() == null)
+//                continue;
+//            if (found[_grid[y][x].getValue()-1])
+//                return false;
+//            found[_grid[y][x].getValue() -1] = true;
         }
         return true;
     }
 
+    @Override
     public boolean CheckBlock(int x, int y)
     {
         boolean[] found = new boolean[_lineSize];
@@ -54,6 +72,8 @@ public class Backtracking extends Sudoku<IntCell> {
             for (int dx = 0; dx < _size; dx++) {
                 int newX = _size * x + dx;
                 int newY = _size * y + dy;
+//                if (!CheckCell(newX, newY, x, y))
+//                    return false;
                 if (_grid[newY][newX].getValue() == null)
                     continue;
                 if (found[_grid[newY][newX].getValue()-1])
@@ -65,12 +85,12 @@ public class Backtracking extends Sudoku<IntCell> {
     }
 
     public boolean isValid() {
-//        for (int x = 0; x < _lineSize; x++) {
-//            for (int y = 0; y < _lineSize; y++) {
-//                if (!CheckCol(x, y) || !CheckLine(x, y) || !CheckBlock(x, y))
-//                    return false;
-//            }
-//        }
+        for (int x = 0; x < _lineSize; x++) {
+            for (int y = 0; y < _lineSize; y++) {
+                if (!CheckCol(x, y) || !CheckLine(x, y) || !CheckBlock(x, y))
+                    return false;
+            }
+        }
         return true;
     }
 
