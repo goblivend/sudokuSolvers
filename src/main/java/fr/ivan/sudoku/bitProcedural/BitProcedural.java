@@ -2,7 +2,6 @@ package fr.ivan.sudoku.bitProcedural;
 
 import fr.ivan.profiler.Profiler;
 import fr.ivan.sudoku.Sudoku;
-import fr.ivan.sudoku.backtracking.Backtracking;
 import fr.ivan.sudoku.util.Utils;
 
 import java.awt.Point;
@@ -240,37 +239,5 @@ public class BitProcedural extends Sudoku<QuantumCell> {
 //        System.out.println("Validity : " + CheckValidity());
         System.out.println("Solve Res : " + SolveRec());
         System.out.println(_profiler);
-    }
-
-    public boolean CheckValidity() {
-        if (_profiler != null)
-            _profiler.start("BitProcedural.CheckValidity");
-        Backtracking bt = new Backtracking();
-        for (int y = 0; y < _lineSize; y++) {
-            for (int x = 0; x < _lineSize; x++) {
-                Integer currPoss = _grid[y][x].getPossibilities();
-                _grid[y][x].resetPossibilities();
-                for (int n = 1; n <= _lineSize; n++) {
-                    if (QuantumCell.getIthBit(currPoss, n-1) != 1)
-                        continue;
-                    QuantumCell[][] oldGrid = CopyGrid();
-                    _grid[y][x].setPossibility(n);
-
-                    bt.SetGrid(this.toString(), _alphabet, _size);
-
-                    if (!bt.isValid()) {
-                        _profiler.finish("BitProcedural.CheckValidity");
-                        return false;
-                    }
-
-                    _grid = oldGrid;
-                }
-                _grid[y][x].setPossibilities(currPoss);
-
-            }
-        }
-        if (_profiler != null)
-            _profiler.finish("BitProcedural.CheckValidity");
-        return true;
     }
 }
