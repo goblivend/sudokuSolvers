@@ -1,5 +1,15 @@
 # Improvements 
 
+## Keep versions or not
+
+### ++
+
+Compare
+
+### --
+
+Harder to maintain
+
 ## Entropy ++ & new Grid Object
 
 ### Needs :
@@ -72,10 +82,21 @@ class Grid<Cell> {
     {
         foreach(n: linesize) {
             foreach(col/line: linesize) {
+                // block from n : `x=n%size` `y=n/size`
+                list = from col, line, block
+
+                // =>>>>> export to subfunction for line, col, block, only 3 calls here
                 if (list == null)
                     continue;
 
-                if (list.length == 1)
+                if (list.length == 1) {
+                    foreach(nb: cell)
+                      // remove in each `col`, `line`, `block` that its here
+                    // set cell = n
+                    list = null;
+                }
+                // <<<<=
+                    
             }
         }
 
