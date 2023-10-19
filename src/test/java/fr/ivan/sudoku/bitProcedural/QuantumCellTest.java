@@ -1,6 +1,6 @@
 package fr.ivan.sudoku.bitProcedural;
 
-import fr.ivan.profiler.Pair;
+import fr.ivan.v1.sudoku.bitProcedural.QuantumCell;
 import junit.framework.TestCase;
 import org.junit.Assert;
 

@@ -1,7 +1,7 @@
-package fr.ivan.sudoku;
+package fr.ivan.v1.sudoku;
 
-import fr.ivan.sudoku.util.Cell;
-import fr.ivan.sudoku.util.Utils;
+import fr.ivan.util.Cell;
+import fr.ivan.util.Utils;
 import fr.ivan.profiler.*;
 
 public abstract class Sudoku<T extends Cell> {

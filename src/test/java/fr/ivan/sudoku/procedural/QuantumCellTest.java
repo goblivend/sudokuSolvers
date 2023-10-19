@@ -1,5 +1,6 @@
 package fr.ivan.sudoku.procedural;
 
+import fr.ivan.v1.sudoku.procedural.QuantumCell;
 import junit.framework.TestCase;
 import org.junit.Assert;
 

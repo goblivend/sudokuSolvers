@@ -1,10 +1,7 @@
-package fr.ivan.sudoku.backtracking;
+package fr.ivan.v1.sudoku.backtracking;
 
-import fr.ivan.sudoku.Sudoku;
-import fr.ivan.sudoku.util.Cell;
-import fr.ivan.sudoku.util.Utils;
-
-import javax.print.DocFlavor;
+import fr.ivan.v1.sudoku.Sudoku;
+import fr.ivan.util.Utils;
 
 public class Backtracking extends Sudoku<IntCell> {
 

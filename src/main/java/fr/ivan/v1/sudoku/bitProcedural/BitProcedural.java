@@ -1,8 +1,8 @@
-package fr.ivan.sudoku.bitProcedural;
+package fr.ivan.v1.sudoku.bitProcedural;
 
 import fr.ivan.profiler.Profiler;
-import fr.ivan.sudoku.Sudoku;
-import fr.ivan.sudoku.util.Utils;
+import fr.ivan.v1.sudoku.Sudoku;
+import fr.ivan.util.Utils;
 
 import java.awt.Point;
 

@@ -1,5 +1,6 @@
 package fr.ivan.sudoku.util;
 
+import fr.ivan.util.Utils;
 import junit.framework.TestCase;
 import org.junit.Assert;
 

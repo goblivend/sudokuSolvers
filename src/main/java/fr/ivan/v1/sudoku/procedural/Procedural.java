@@ -1,10 +1,10 @@
-package fr.ivan.sudoku.procedural;
+package fr.ivan.v1.sudoku.procedural;
 
 import fr.ivan.profiler.Profiler;
-import fr.ivan.sudoku.Sudoku;
-import fr.ivan.sudoku.backtracking.Backtracking;
+import fr.ivan.v1.sudoku.Sudoku;
+import fr.ivan.v1.sudoku.backtracking.Backtracking;
 
-import fr.ivan.sudoku.util.Utils;
+import fr.ivan.util.Utils;
 
 import java.awt.Point;
 
