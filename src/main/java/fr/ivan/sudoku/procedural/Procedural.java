@@ -150,7 +150,7 @@ public class Procedural extends Sudoku<QuantumCell> {
                     res = new Point(x, y);
                     if (entropy == 1) {
                         if (_profiler != null)
-                            _profiler.finish("BitProcedural.getCell");
+                            _profiler.finish("Procedural.getCell");
                         return res;
                     }
                 }

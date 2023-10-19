@@ -14,7 +14,7 @@ public class Main {
         long start = System.nanoTime();
         r.run();
         long end = System.nanoTime();
-        System.out.println((end - start)*0.000000001 + "s");
+        System.out.println((end - start)*1E-9 + "s");
     }
     static void testGridForSudoku(int size, String grid, String alphabet, Sudoku sdk, boolean profiling) {
         System.out.println(new Date());
@@ -55,12 +55,12 @@ public class Main {
 //        PrintGrid(4, grid2);
 //        testGrid(1, ".",".1", true, new BitProcedural());
 //        testGrid(2, grid2DotNumA, Utils.al4DotNum, true, new BitProcedural(), new Procedural(), new Backtracking());
-//        testGrid(3, grid3DotNumA, Utils.al9DotNum, true, new BitProcedural(), new Procedural(), new Backtracking());
+        testGrid(3, grid3DotNumA, Utils.al9DotNum, true, new BitProcedural(), new Procedural(), new Backtracking());
 //        testGrid(4, grid4DotNumA,Utils.al16DotNum, true, new BitProcedural());
 
 //        testGrid(4, grid3, Utils.al16num, true);
-        System.out.println("Starting");
-        testGrid(5, grid5DotAdvanced, Utils.al25Dot, false, new BitProcedural());
+//        System.out.println("Starting");
+//        testGrid(5, grid5DotAdvanced, Utils.al25Dot, false, new BitProcedural());
 
 
         // Need to create tests to ensure their validity....
