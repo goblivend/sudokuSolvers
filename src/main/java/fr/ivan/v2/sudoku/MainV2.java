@@ -4,8 +4,8 @@ import fr.ivan.profiler.TimeProfiler;
 
 import java.util.Date;
 
-import static fr.ivan.util.Alphabets.*;
-import static fr.ivan.util.Grids.*;
+import static fr.ivan.util.Alphabets.al4DotNum;
+import static fr.ivan.util.Grids.grid2DotNumB;
 
 public class MainV2 {
     static void timeIt(Runnable r){
@@ -27,11 +27,11 @@ public class MainV2 {
 
 
 //        testGrid(1, ".",".1", false, new BitProcedural());
-        testGrid(2, grid2DotNumEmpty, al4DotNum, false, new BitProcedural());
-        testGrid(3, grid3DotNumEmpty, al9DotNum, false, new BitProcedural());
-        testGrid(4, grid4DotNumEmpty,al16DotNum, true, new BitProcedural());
+        testGrid(2, grid2DotNumB, al4DotNum, false, new BitProcedural());
+//        testGrid(3, grid3DotNumA, al9DotNum, false, new BitProcedural());
+//        testGrid(4, grid4DotNumA,al16DotNum, true, new BitProcedural());
 //        testGrid(4, grid3, al16num, true, new BitProcedural());
-        testGrid(5, grid5DotNumEmpty, al25DotNum, false, new BitProcedural());
+//        testGrid(5, grid5DotNumEmpty, al25DotNum, false, new BitProcedural());
 
     }
 }
