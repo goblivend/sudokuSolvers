@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static java.util.Optional.ofNullable;
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.toList;
 
 public class QuantumCell extends Cell<Integer> {
 
@@ -35,14 +35,14 @@ public class QuantumCell extends Cell<Integer> {
     QuantumCell(QuantumCell c) {
         _profiler = c._profiler;
         if (_profiler != null)
-            _profiler.start("QuantumCell.QuantumCell");
+            _profiler.start("QuantumCell.QuantumCellCopy");
         _value = c._value;
         _finalValue = c._finalValue;
         _checked = c._checked;
         _entropy = c._entropy;
         _size = c._size;
         if (_profiler != null)
-            _profiler.finish("QuantumCell.QuantumCell");
+            _profiler.finish("QuantumCell.QuantumCellCopy");
     }
 
     public static Integer getMaxIntFromSize(int size) {

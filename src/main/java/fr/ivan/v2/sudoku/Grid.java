@@ -71,10 +71,10 @@ public class Grid {
 
     private boolean PropagateCell(int x, int y, int oldX, int oldY) {
         if (_profiler != null)
-            _profiler.start( "BitProcedural.PropagateCell");
+            _profiler.start( "Grid.PropagateCell");
         if (x == oldX && y == oldY) {
             if (_profiler != null)
-                _profiler.finish( "BitProcedural.PropagateCell");
+                _profiler.finish( "Grid.PropagateCell");
             return true;
         }
 
@@ -82,56 +82,56 @@ public class Grid {
         boolean res = getCell(x, y).isCompletable();
 
         if (_profiler != null)
-            _profiler.finish( "BitProcedural.PropagateCell");
+            _profiler.finish( "Grid.PropagateCell");
         return res;
     }
 
     private boolean PropagateLine(int oldX, int y) {
         if (_profiler != null)
-            _profiler.start( "BitProcedural.PropagateLine");
+            _profiler.start( "Grid.PropagateLine");
         for (int x = 0; x < _lineSize; x++) {
             if (!PropagateCell(x, y, oldX, y)) {
                 if (_profiler != null)
-                    _profiler.finish( "BitProcedural.PropagateLine");
+                    _profiler.finish( "Grid.PropagateLine");
                 return false;
             }
         }
         if (_profiler != null)
-            _profiler.finish( "BitProcedural.PropagateLine");
+            _profiler.finish( "Grid.PropagateLine");
         return true;
     }
 
     private boolean PropagateCol(int x, int oldY) {
         if (_profiler != null)
-            _profiler.start( "BitProcedural.PropagateCol");
+            _profiler.start( "Grid.PropagateCol");
         for (int y = 0; y < _lineSize; y++) {
             if (!PropagateCell(x, y, x, oldY)) {
                 if (_profiler != null)
-                    _profiler.finish("BitProcedural.PropagateCol");
+                    _profiler.finish("Grid.PropagateCol");
                 return false;
             }
         }
         if (_profiler != null)
-            _profiler.finish("BitProcedural.PropagateCol");
+            _profiler.finish("Grid.PropagateCol");
         return true;
     }
 
     private boolean PropagateBlock(int x, int y) {
         if (_profiler != null)
-            _profiler.start("BitProcedural.PropagateBlock");
+            _profiler.start("Grid.PropagateBlock");
         for (int dy = 0; dy < _size; dy++) {
             for (int dx = 0; dx < _size; dx++) {
                 int newX = (x / _size) * _size + dx;
                 int newY = (y / _size) * _size + dy;
                 if (!PropagateCell(newX, newY, x, y)) {
                     if (_profiler != null)
-                        _profiler.finish("BitProcedural.PropagateBlock");
+                        _profiler.finish("Grid.PropagateBlock");
                     return false;
                 }
             }
         }
         if (_profiler != null)
-            _profiler.finish("BitProcedural.PropagateBlock");
+            _profiler.finish("Grid.PropagateBlock");
         return true;
     }
 
@@ -141,7 +141,7 @@ public class Grid {
 
     public Point getCell() {
         if (_profiler != null)
-            _profiler.start("BitProcedural.getCell");
+            _profiler.start("Grid.getCell");
         int minEntropy = _lineSize + 1;
         Point res = null;
         for (int y = 0; y < _lineSize; y++) {
@@ -155,47 +155,64 @@ public class Grid {
                     res = new Point(x, y);
                     if (entropy == 1) {
                         if (_profiler != null)
-                            _profiler.finish("BitProcedural.getCell");
+                            _profiler.finish("Grid.getCell");
                         return res;
                     }
                 }
             }
         }
-        if (minEntropy <= 1) {
+        if (minEntropy <= 1 || minEntropy == _lineSize+1) {
             if (_profiler != null)
-                _profiler.finish("BitProcedural.getCell");
+                _profiler.finish("Grid.getCell");
             return res;
         }
 
-        for (int n = 0; n < _lineSize; n++) {
+        if (_profiler != null)
+            _profiler.start("Grid.getCell.v2");
+
+        for (int n = 1; n <= _lineSize; n++) {
             for (int i = 0; i < _lineSize; i++) {
-                int y = _cols[n][i].get(0);
-                if (_cols[n][i].size() == 1
+                int y = _cols[n-1][i].get(0);
+                if (_cols[n-1][i].size() == 1
                     && !getCell(i, y).isChecked()) {
                     getCell(i, y).setValue(n);
+                    if (_profiler != null) {
+                        _profiler.finish("Grid.getCell.v2");
+                        _profiler.finish("Grid.getCell");
+                    }
                     return new Point(i, y);
                 }
 
-                int x = _lines[n][i].get(0);
-                if (_lines[n][i].size() == 1
+                int x = _lines[n-1][i].get(0);
+                if (_lines[n-1][i].size() == 1
                         && !getCell(x, i).isChecked()) {
                     getCell(x, i).setValue(n);
+                    if (_profiler != null){
+                        _profiler.finish("Grid.getCell.v2");
+                        _profiler.finish("Grid.getCell");
+                    }
                     return new Point(x, i);
                 }
 
-                int nbInBlock = _blocks[n][i].get(0);
+                int nbInBlock = _blocks[n-1][i].get(0);
                 int blockY = i/_size*_size + nbInBlock/_size;
                 int blockX = i%_size*_size + nbInBlock%_size;
-                if (_blocks[n][i].size() == 1
+                if (_blocks[n-1][i].size() == 1
                         && !getCell(blockX, blockY).isChecked()) {
                     getCell(blockX, blockY).setValue(n);
+                    if (_profiler != null){
+                        _profiler.finish("Grid.getCell.v2");
+                        _profiler.finish("Grid.getCell");
+                    }
                     return new Point(blockX, blockY);
                 }
             }
         }
 
-        if (_profiler != null)
-            _profiler.finish("BitProcedural.getCell");
+        if (_profiler != null){
+            _profiler.finish("Grid.getCell.v2");
+            _profiler.finish("Grid.getCell");
+        }
         return res;
     }
 
@@ -252,12 +269,17 @@ public class Grid {
     }
 
     private QuantumCell[][] copyGrid() {
+        if (_profiler != null)
+            _profiler.start("Grid.copyGrid");
         QuantumCell[][] copy = new QuantumCell[_lineSize][_lineSize];
         for (int y = 0; y < _lineSize; y++) {
             for (int x = 0; x < _lineSize; x++) {
                 copy[y][x] = new QuantumCell(_grid[y][x]);
             }
         }
+
+        if (_profiler != null)
+            _profiler.finish("Grid.copyGrid");
         return copy;
     }
 

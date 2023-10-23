@@ -4,6 +4,7 @@ public class Grids {
     public static final String grid2DotNumEmpty = "................";
     public static final String grid2DotNumA =     "1234341223..41..";
     public static final String grid2DotNumB =     "1234341223......";
+    public static final String grid2DotNumC =     "1.....1..1......";
     public static final String grid3DotNumEmpty = ".................................................................................";
     public static final String grid3DotNumA =     "5...8..49...5...3..673....115..........2.8..........187....415..3...2...49..5...3";
     public static final String grid4DotNumEmpty = "................................................................................................................................................................................................................................................................";

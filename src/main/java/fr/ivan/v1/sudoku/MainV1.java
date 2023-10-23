@@ -1,14 +1,12 @@
 package fr.ivan.v1.sudoku;
 
-import fr.ivan.profiler.*;
-import fr.ivan.v1.sudoku.backtracking.Backtracking;
+import fr.ivan.profiler.TimeProfiler;
 import fr.ivan.v1.sudoku.bitProcedural.BitProcedural;
-import fr.ivan.v1.sudoku.procedural.Procedural;
 
 import java.util.Date;
 
-import static fr.ivan.util.Alphabets.*;
-import static fr.ivan.util.Grids.*;
+import static fr.ivan.util.Alphabets.al16DotNum;
+import static fr.ivan.util.Grids.grid4DotNumA;
 
 public class MainV1 {
 
@@ -33,11 +31,12 @@ public class MainV1 {
     }
 
     public static void main(String[] args) {
-        //        PrintGrid(4, grid2);
+        System.out.println("Starting");
 //        testGrid(1, ".",".1", true, new BitProcedural());
 //        testGrid(2, grid2DotNumA, Utils.al4DotNum, true, new BitProcedural(), new Procedural(), new Backtracking());
-        testGrid(3, grid3DotNumA, al9DotNum, true, new BitProcedural(), new Procedural(), new Backtracking());
+//        testGrid(3, grid3DotNumA, al9DotNum, true, new BitProcedural(), new Procedural(), new Backtracking());
 //        testGrid(4, grid4DotNumA,Utils.al16DotNum, true, new BitProcedural());
+        testGrid(4, grid4DotNumA,al16DotNum, true, new BitProcedural());
 
 //        testGrid(4, grid3, Utils.al16num, true);
 //        System.out.println("Starting");
