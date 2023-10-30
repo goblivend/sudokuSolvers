@@ -8,12 +8,13 @@ import static fr.ivan.util.Alphabets.al16DotNum;
 import static fr.ivan.util.Grids.grid4DotNumA;
 
 public class MainV2 {
-    static void timeIt(Runnable r){
+    static void timeIt(Runnable r) {
         long start = System.nanoTime();
         r.run();
         long end = System.nanoTime();
-        System.out.println((end - start)*1E-9 + "s");
+        System.out.println((end - start) * 1E-9 + "s");
     }
+
     static void testGrid(int size, String grid, String alphabet, boolean profiling, Sudoku sdk) {
         System.out.println(new Date());
         timeIt(() -> sdk.setGrid(grid, alphabet, size, profiling ? new TimeProfiler() : null));

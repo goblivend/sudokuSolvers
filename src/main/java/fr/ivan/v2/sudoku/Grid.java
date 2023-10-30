@@ -21,14 +21,18 @@ public class Grid {
     private List<Integer>[][] _blocks;
 
     public Grid(Grid grid) {
+        this._profiler = grid._profiler;
+        if (_profiler != null)
+            _profiler.start("Grid.Grid(Grid)");
         this._lineSize = grid._lineSize;
         this._size = grid._size;
         this._grid = grid.copyGrid();
         this._alphabet = grid._alphabet;
-        this._profiler = grid._profiler;
         this._cols = copyArray(grid._cols);
         this._lines = copyArray(grid._lines);
         this._blocks = copyArray(grid._blocks);
+        if (_profiler != null)
+            _profiler.finish("Grid.Grid(Grid)");
     }
     public Grid(int size, String grid) {
         this(size, grid, Utils.getAlphabet(size), null);
@@ -284,6 +288,8 @@ public class Grid {
     }
 
     private List<Integer>[][] copyArray(List<Integer>[][] arr) {
+        if (_profiler != null)
+            _profiler.start("Grid.copyArray");
         if (arr.length == 0) {
             return new List[0][];
         }
@@ -297,6 +303,9 @@ public class Grid {
                 newArr[i][j] = new ArrayList<>(arr[i][j]);
             }
         }
+
+        if (_profiler != null)
+            _profiler.finish("Grid.copyArray");
         return newArr;
     }
 

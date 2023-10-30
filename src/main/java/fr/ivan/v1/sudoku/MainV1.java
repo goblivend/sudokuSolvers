@@ -34,9 +34,9 @@ public class MainV1 {
         System.out.println("Starting");
 //        testGrid(1, ".",".1", true, new BitProcedural());
 //        testGrid(2, grid2DotNumA, Utils.al4DotNum, true, new BitProcedural(), new Procedural(), new Backtracking());
-//        testGrid(3, grid3DotNumA, al9DotNum, true, new BitProcedural(), new Procedural(), new Backtracking());
-//        testGrid(4, grid4DotNumA,Utils.al16DotNum, true, new BitProcedural());
+//        testGrid(3, grid3DotNumA, al9DotNum, true, new BitProcedural());
         testGrid(4, grid4DotNumA,al16DotNum, true, new BitProcedural());
+//        testGrid(4, grid4DotNumA,al16DotNum, true, new BitProcedural());
 
 //        testGrid(4, grid3, Utils.al16num, true);
 //        System.out.println("Starting");
