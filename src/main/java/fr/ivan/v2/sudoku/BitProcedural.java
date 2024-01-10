@@ -54,17 +54,23 @@ public class BitProcedural implements Sudoku {
     private boolean solveRec() {
         if (_profiler != null)
             _profiler.start("BitProcedural.SolveRec");
+//        System.out.println(toString(true));
+        boolean res = _solveRec();
+
+        if (_profiler != null)
+            _profiler.finish("BitProcedural.SolveRec");
+
+        return res;
+    }
+
+    private boolean _solveRec() {
         Point cell = _grid.getCell();
         if (cell == null) {
-            if (_profiler != null)
-                _profiler.finish("BitProcedural.SolveRec");
             return true;
         }
 
         QuantumCell gridCell = _grid.getCell(cell.x, cell.y);
         if (!gridCell.isCompletable()) {
-            if (_profiler != null)
-                _profiler.finish("BitProcedural.SolveRec");
             return false;
         }
 
@@ -73,8 +79,6 @@ public class BitProcedural implements Sudoku {
             boolean res = _grid.propagate(cell.x, cell.y) && solveRec();
             if (!res)
                 gridCell.updateChecked();
-            if (_profiler != null)
-                _profiler.finish("BitProcedural.SolveRec");
             return res;
         }
 
@@ -83,10 +87,9 @@ public class BitProcedural implements Sudoku {
         for (Integer n : possibilities) {
             Grid oldGrid = CopyGrid();
 
+
             gridCell.setValue(n);
             if (_grid.propagate(cell.x, cell.y) && solveRec()) {
-                if (_profiler != null)
-                    _profiler.finish("BitProcedural.SolveRec");
                 return true;
             }
             _grid = oldGrid;
@@ -94,8 +97,6 @@ public class BitProcedural implements Sudoku {
         }
         gridCell.setPossibilities(possibilities);
         gridCell.updateChecked();
-        if (_profiler != null)
-            _profiler.finish("BitProcedural.SolveRec");
         return false;
     }
 

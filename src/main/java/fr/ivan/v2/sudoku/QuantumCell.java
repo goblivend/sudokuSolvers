@@ -10,7 +10,7 @@ import java.util.Optional;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 
-public class QuantumCell extends Cell<Integer> {
+public class QuantumCell extends Cell<Long> {
 
     private boolean _checked = false;
     private Integer _entropy;
@@ -45,19 +45,19 @@ public class QuantumCell extends Cell<Integer> {
             _profiler.finish("QuantumCell.QuantumCellCopy");
     }
 
-    public static Integer getMaxIntFromSize(int size) {
-        return (int) Math.round(Math.pow(2, size)- 1);
+    public static long getMaxIntFromSize(int size) {
+        return (1L << size) - 1;
     }
-    public static int getMaskBit(int n) {
-        return 1 << n;
+    public static long getMaskBit(int n) {
+        return 1L << n;
     }
-    public static Integer setIthBit(Integer nb, int bit) {
+    public static long setIthBit(long nb, int bit) {
         return nb | getMaskBit(bit);
     }
-    public static Integer unsetIthBit(Integer nb, int bit) {
+    public static long unsetIthBit(long nb, int bit) {
         return nb & ~getMaskBit(bit);
     }
-    public static int getIthBit(Integer nb, int bit) {
+    public static long getIthBit(long nb, int bit) {
         return (nb & getMaskBit(bit)) == 0 ? 0 : 1;
     }
 
@@ -80,7 +80,7 @@ public class QuantumCell extends Cell<Integer> {
                 _profiler.finish("QuantumCell.getEntropy");
             return 1;
         }
-        _entropy = Integer.bitCount(_value);
+        _entropy = Long.bitCount(_value);
 
         if (_profiler != null)
             _profiler.finish("QuantumCell.getEntropy");
@@ -104,7 +104,7 @@ public class QuantumCell extends Cell<Integer> {
         }
 
         for (int i = 0; i < _size; i++) {
-            if (getIthBit(_value, i) == 1) {
+            if (getIthBit(_value, i) != 0) {
                 _finalValue = i+1;
                 if (_profiler != null)
                     _profiler.finish("QuantumCell.getValue");
@@ -118,7 +118,7 @@ public class QuantumCell extends Cell<Integer> {
 
     @Override
     public void setValue(Integer n) {
-        if (n == null || getIthBit(_value, n-1) == 1)
+        if (n == null)// || getIthBit(_value, n-1) != 0)
             return;
         _value = getMaskBit(n-1);
         _finalValue = n;
@@ -128,18 +128,17 @@ public class QuantumCell extends Cell<Integer> {
     public List<Integer> getPossibilities() {
         List<Optional<Integer>> poss = new ArrayList<>();
         for (int i = 0; i < _size; i++) {
-            poss.add(ofNullable(getIthBit(_value, i) == 1 ? i+1 : null));
+            poss.add(ofNullable(getIthBit(_value, i) != 0 ? i+1 : null));
         }
 
         return poss.stream().flatMap(Optional::stream).collect(toList());
     }
 
     public void setPossibilities(List<Integer> poss) {
-        _value = 0;
+        _value = 0L;
         for (Integer n : poss) {
             _value |= getMaskBit(n);
         }
-
         _finalValue = null;
         _entropy = null;
     }
@@ -150,7 +149,7 @@ public class QuantumCell extends Cell<Integer> {
     public void resetPossibilities() {
         _finalValue = null;
         _entropy = null;
-        _value = 0;
+        _value = 0L;
     }
 
     /**

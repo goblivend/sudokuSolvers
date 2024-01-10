@@ -40,7 +40,7 @@ public class QuantumCell extends Cell<Integer> {
     }
 
     public static Integer getMaxIntFromSize(int size) {
-        return (int) Math.round(Math.pow(2, size)- 1);
+        return (1 << size) - 1;
     }
     public static int getMaskBit(int n) {
         return 1 << n;
