@@ -4,10 +4,8 @@ import fr.ivan.profiler.Profiler;
 import fr.ivan.util.Utils;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static fr.ivan.util.Utils.CharToInt;
 
@@ -20,7 +18,7 @@ public class Grid {
 
     private Map<Integer, List<Integer>>[] _cols;
     private Map<Integer, List<Integer>>[] _lines;
-//    private Map<Integer, List<Integer>>[] _blocks;
+    private Map<Integer, List<Integer>>[] _blocks;
 
     public Grid(Grid grid) {
         this._profiler = grid._profiler;
@@ -32,7 +30,7 @@ public class Grid {
         this._alphabet = grid._alphabet;
         this._cols = copyArray(grid._cols);
         this._lines = copyArray(grid._lines);
-//        this._blocks = copyArray(grid._blocks);
+        this._blocks = copyArray(grid._blocks);
         if (_profiler != null)
             _profiler.finish("Grid.Grid(Grid)");
     }
@@ -88,8 +86,8 @@ public class Grid {
         int blockNb = (y/_size)*_size + x/_size;
         Integer nbInBlock = (x%_size) + (y%_size)*_size;
 
-//        if (_blocks[n-1].containsKey(blockNb))
-//            _blocks[n-1].get(blockNb).remove(nbInBlock);
+        if (_blocks[n-1].containsKey(blockNb))
+            _blocks[n-1].get(blockNb).remove(nbInBlock);
         if (_profiler != null)
             _profiler.finish("Grid.UnsetPossibility");
     }
@@ -192,7 +190,7 @@ public class Grid {
                 }
             }
         }
-/*
+///*
         if (minEntropy <= 1 || minEntropy == _lineSize+1) {
             if (_profiler != null)
                 _profiler.finish("Grid.getCell");
@@ -221,7 +219,6 @@ public class Grid {
                         _profiler.finish("Grid.getCell.v2");
                         _profiler.finish("Grid.getCell");
                     }
-//                    System.out.println(this.toString(true));
                     return new Point(x, y);
                 }
             }
@@ -249,31 +246,31 @@ public class Grid {
                 }
             }
 
-//            for (var entry : new HashSet<>(_blocks[n-1].entrySet())) {
-//                int i = entry.getKey();
-//
-//
-////                if (entry.getValue().isEmpty())
-////                    _cols[n-1].remove(i);
-//
-//                if (entry.getValue().size() == 1) {
-//                    int nbInBlock = entry.getValue().get(0);
-//                    int blockY = i/_size*_size + nbInBlock/_size;
-//                    int blockX = i%_size*_size + nbInBlock%_size;
-//                    if (getCell(blockX, blockY).isChecked()) {
-//                        _blocks[n-1].remove(i);
-//                        continue;
-//                    }
-//                    getCell(blockX, blockY).setValue(n);
-//                    if (_profiler != null) {
-//                        _profiler.finish("Grid.getCell.v2");
-//                        _profiler.finish("Grid.getCell");
-//                    }
-//                    return new Point(blockX, blockY);
-//                }
-//            }
+            for (var entry : new HashSet<>(_blocks[n-1].entrySet())) {
+                int i = entry.getKey();
+
+
+//                if (entry.getValue().isEmpty())
+//                    _cols[n-1].remove(i);
+
+                if (entry.getValue().size() == 1) {
+                    int nbInBlock = entry.getValue().get(0);
+                    int blockY = i/_size*_size + nbInBlock/_size;
+                    int blockX = i%_size*_size + nbInBlock%_size;
+                    if (getCell(blockX, blockY).isChecked()) {
+                        _blocks[n-1].remove(i);
+                        continue;
+                    }
+                    getCell(blockX, blockY).setValue(n);
+                    if (_profiler != null) {
+                        _profiler.finish("Grid.getCell.v2");
+                        _profiler.finish("Grid.getCell");
+                    }
+                    return new Point(blockX, blockY);
+                }
+            }
         }
-*/
+//*/
         if (_profiler != null){
             _profiler.finish("Grid.getCell.v2");
             _profiler.finish("Grid.getCell");
@@ -294,7 +291,7 @@ public class Grid {
         _grid = new QuantumCell[_lineSize][_lineSize];
         _cols = initEnthropy();
         _lines = initEnthropy();
-//        _blocks = initEnthropy();
+        _blocks = initEnthropy();
 
         for (int y = 0; y < _lineSize; y++) {
             for (int x = 0; x < _lineSize; x++) {
