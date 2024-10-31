@@ -11,20 +11,42 @@ namespace sudoku {
         size = alphabet.size() - 1;
         region_size = sqrtl(size);
 
+        if (str_grid.size() != size * size) {
+            throw std::invalid_argument("Invalid grid size, expected " + std::to_string(size * size) + " got " + std::to_string(str_grid.size()));
+        }
+
         grid = std::vector<std::vector<int>>(size, std::vector<int>(size, 0));
 
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
+                if (alphabet.find(str_grid[i * size + j]) == std::string::npos) {
+                    throw std::invalid_argument("Invalid character in grid: " + std::string(1, str_grid[i * size + j]));
+                }
                 grid[i][j] = alphabet.find(str_grid[i * size + j]);
             }
+        }
+
+        if (!is_valid()) {
+            throw std::invalid_argument("Invalid grid");
         }
     }
 
     Sudoku::Sudoku(std::vector<std::vector<int>> grid) {
         size = grid.size();
         region_size = sqrtl(size);
+        if (region_size * region_size != size) {
+            throw std::invalid_argument("Invalid grid size, expected a square number got " + std::to_string(size));
+        }
+
+        for (int i = 0; i < size; i++) {
+            if (grid[i].size() != size) {
+                throw std::invalid_argument("Invalid grid size, expected a square grid got " + std::to_string(size) + "x" + std::to_string(grid[i].size()));
+            }
+        }
+
 
         this->grid = grid;
+
     }
 
     Sudoku::Sudoku(const Sudoku &sudoku) {
