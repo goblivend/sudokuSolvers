@@ -103,7 +103,7 @@ namespace proceduralv1
                 auto curr_entropy = grid[i][j].get_entropy();
                 if (curr_entropy < min && !grid[i][j].is_set())
                 {
-                    min = get_entropy(i, j);
+                    min = curr_entropy;
                     result = std::tuple(i, j);
                 }
             }
@@ -153,11 +153,6 @@ namespace proceduralv1
                 }
             }
         }
-    }
-
-    int ProceduralV1::get_entropy(int row, int column) const
-    {
-        return grid[row][column].get_entropy();
     }
 
     std::vector<int> ProceduralV1::get_possible_values(int row, int column) const

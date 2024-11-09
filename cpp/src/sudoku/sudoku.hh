@@ -10,9 +10,13 @@ namespace sudoku {
     public:
         Sudoku(std::string str_grid, std::string alphabet);
         Sudoku(std::vector<std::vector<int>> grid);
+        Sudoku(int region_size);
         Sudoku(const Sudoku &sudoku);
 
+        sudoku::Sudoku operator=(const sudoku::Sudoku &sudoku);
+
         void print_grid(std::string alphabet) const;
+        std::string to_string(std::string alphabet) const;
 
         bool is_valid() const;
         bool is_valid_row(int row) const;

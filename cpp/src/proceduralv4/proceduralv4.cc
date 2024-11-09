@@ -1,26 +1,30 @@
-#include "proceduralv2.hh"
+#include "proceduralv4.hh"
 
 #include <algorithm>
 #include <iostream>
 
-namespace proceduralv2
+namespace proceduralv4
 {
     Cell::Cell(int value, int max_value)
-        : possible_values(), max_value(max_value), set(false)
+        : possible_values(), max_value(max_value), set(false), entropy(-1)
     {
-        if (value != 0) { // Field `set` equals false at first since we haven't propagated the value yet
+        if (value != 0) {
             possible_values = 1 << (value - 1);
+            entropy = 1;
         } else {
             possible_values = (1 << max_value) - 1;
         }
     }
 
     Cell::Cell(const Cell &cell)
-        : possible_values(cell.possible_values), max_value(cell.max_value), set(cell.set)
+        : possible_values(cell.possible_values), max_value(cell.max_value), set(cell.set), entropy(cell.entropy)
     {}
 
     int Cell::get_entropy() const
     {
+        if (entropy != -1)
+            return entropy;
+
         return __builtin_popcount(possible_values);
     }
 
@@ -28,10 +32,14 @@ namespace proceduralv2
     {
         possible_values = 1 << (value - 1);
         set = true;
+        entropy = 1;
     }
 
     void Cell::remove_possible_value(int value)
     {
+        if (possible_values & (1 << (value - 1)))
+            entropy--;
+
         possible_values &= ~(1 << (value - 1));
     }
 
@@ -70,7 +78,7 @@ namespace proceduralv2
         return set;
     }
 
-    Proceduralv2::Proceduralv2(const sudoku::Sudoku &s)
+    Proceduralv4::Proceduralv4(const sudoku::Sudoku &s)
         : size(s.size), region_size(s.region_size), grid()
     {
         for (int i = 0; i < s.size; i++)
@@ -95,7 +103,7 @@ namespace proceduralv2
         }
     }
 
-    Proceduralv2::Proceduralv2(const Proceduralv2 &p)
+    Proceduralv4::Proceduralv4(const Proceduralv4 &p)
         : size(p.size), region_size(p.region_size), grid()
     {
         for (int i = 0; i < size; i++)
@@ -109,7 +117,7 @@ namespace proceduralv2
         }
     }
 
-    std::tuple<int, int> Proceduralv2::next_empty_cell() const {
+    std::tuple<int, int> Proceduralv4::next_empty_cell() const {
         std::tuple<int, int> result(-1, -1);
 
         int min = size + 1;
@@ -129,7 +137,7 @@ namespace proceduralv2
         return result;
     }
 
-    void Proceduralv2::set_cell(int row, int column, int value)
+    void Proceduralv4::set_cell(int row, int column, int value)
     {
         grid[row][column].set_value(value);
         propagate_row(row, value);
@@ -137,7 +145,7 @@ namespace proceduralv2
         propagate_region(row, column, value);
     }
 
-    void Proceduralv2::propagate_row(int row, int value) {
+    void Proceduralv4::propagate_row(int row, int value) {
         for (int i = 0; i < size; i++)
         {
             if (!grid[row][i].is_set())
@@ -147,7 +155,7 @@ namespace proceduralv2
         }
     }
 
-    void Proceduralv2::propagate_column(int column, int value) {
+    void Proceduralv4::propagate_column(int column, int value) {
         for (int i = 0; i < size; i++)
         {
             if (!grid[i][column].is_set())
@@ -157,7 +165,7 @@ namespace proceduralv2
         }
     }
 
-    void Proceduralv2::propagate_region(int row, int column, int value) {
+    void Proceduralv4::propagate_region(int row, int column, int value) {
         int region_row = row / region_size;
         int region_column = column / region_size;
 
@@ -173,12 +181,12 @@ namespace proceduralv2
         }
     }
 
-    std::vector<int> Proceduralv2::get_possible_values(int row, int column) const
+    std::vector<int> Proceduralv4::get_possible_values(int row, int column) const
     {
         return grid[row][column].get_possible_values();
     }
 
-    sudoku::Sudoku Proceduralv2::to_sudoku() const
+    sudoku::Sudoku Proceduralv4::to_sudoku() const
     {
         std::vector<std::vector<int>> new_grid;
         for (int i = 0; i < size; i++)
@@ -193,7 +201,7 @@ namespace proceduralv2
         return sudoku::Sudoku(new_grid);
     }
 
-    static Proceduralv2 solve_rec(Proceduralv2 &p, bool &solved) {
+    static Proceduralv4 solve_rec(Proceduralv4 &p, bool &solved) {
         auto [row, column] = p.next_empty_cell();
         if (row == -1)
         {
@@ -203,7 +211,7 @@ namespace proceduralv2
 
         for (int value : p.get_possible_values(row, column))
         {
-            Proceduralv2 new_p(p);
+            Proceduralv4 new_p(p);
             new_p.set_cell(row, column, value);
             auto res = solve_rec(new_p, solved);
             if (solved)
@@ -215,8 +223,8 @@ namespace proceduralv2
 
     sudoku::Sudoku solve(const sudoku::Sudoku &s, bool &solved)
     {
-        Proceduralv2 p(s);
+        Proceduralv4 p(s);
         solved = false;
         return solve_rec(p, solved).to_sudoku();
     }
-} // namespace proceduralv2
+} // namespace proceduralv4

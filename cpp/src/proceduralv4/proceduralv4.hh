@@ -5,7 +5,7 @@
 
 #include "sudoku/sudoku.hh"
 
-namespace proceduralv1 {
+namespace proceduralv4 {
 
     sudoku::Sudoku solve(const sudoku::Sudoku& s, bool &solved);
 
@@ -23,15 +23,16 @@ namespace proceduralv1 {
             int get_value() const;
             bool is_set() const;
         private:
-            std::vector<int> possible_values;
+            int possible_values;
             int max_value;
             bool set;
+            int entropy;
         };
 
-        class ProceduralV1 {
+        class Proceduralv4 {
         public:
-            ProceduralV1(const sudoku::Sudoku& s);
-            ProceduralV1(const ProceduralV1 &p);
+            Proceduralv4(const sudoku::Sudoku& s);
+            Proceduralv4(const Proceduralv4 &p);
 
             std::tuple<int, int> next_empty_cell() const;
             void set_cell(int row, int column, int value);
@@ -49,4 +50,4 @@ namespace proceduralv1 {
             std::vector<std::vector<Cell>> grid;
         };
     }
-} // namespace proceduralv1
+} // namespace proceduralv4

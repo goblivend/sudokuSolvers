@@ -44,9 +44,13 @@ namespace sudoku {
             }
         }
 
-
         this->grid = grid;
+    }
 
+    Sudoku::Sudoku(int region_size) {
+        this->size = region_size * region_size;
+        this->region_size = region_size;
+        grid = std::vector<std::vector<int>>(size, std::vector<int>(size, 0));
     }
 
     Sudoku::Sudoku(const Sudoku &sudoku) {
@@ -59,6 +63,19 @@ namespace sudoku {
             }
         }
     }
+
+    sudoku::Sudoku Sudoku::operator=(const sudoku::Sudoku &sudoku) {
+        size = sudoku.size;
+        region_size = sudoku.region_size;
+        grid = std::vector<std::vector<int>>(size, std::vector<int>(size, 0));
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                grid[i][j] = sudoku.grid[i][j];
+            }
+        }
+        return *this;
+    }
+
 
     void Sudoku::print_grid(std::string alphabet) const {
         for (int i = 0; i < size; i++) {
@@ -79,6 +96,16 @@ namespace sudoku {
                 std::cout << std::endl;
             }
         }
+    }
+
+    std::string Sudoku::to_string(std::string alphabet) const {
+        std::string str = "";
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                str += alphabet[grid[i][j]];
+            }
+        }
+        return str;
     }
 
     bool Sudoku::is_valid() const {
