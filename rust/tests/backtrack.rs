@@ -1,0 +1,26 @@
+use sudoku_solver::{backtrack::SolverBtrack, grids, solver::Solver};
+
+fn backtrack_solves_grid(grid: &str) {
+    let mut s = SolverBtrack::new(&grid.to_string());
+    s.solve();
+    let out = s.to_string();
+
+    assert!(sudoku_solver::sudoku::is_grid_complete(&out));
+}
+
+macro_rules! solver_case {
+    ($name:ident, $grid:expr) => {
+        #[test]
+        fn $name() {
+            backtrack_solves_grid($grid);
+        }
+    };
+}
+
+solver_case!(backtrack_solves_2_empty, grids::GRID_2_EMPTY);
+solver_case!(backtrack_solves_2_num_a, grids::GRID_2_NUM_A);
+solver_case!(backtrack_solves_2_num_b, grids::GRID_2_NUM_B);
+solver_case!(backtrack_solves_2_num_c, grids::GRID_2_NUM_C);
+solver_case!(backtrack_solves_3_empty, grids::GRID_3_EMPTY);
+solver_case!(backtrack_solves_3_num_a, grids::GRID_3_NUM_A);
+solver_case!(backtrack_solves_3_num_hard, grids::GRID_3_NUM_HARD);

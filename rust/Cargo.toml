@@ -1,0 +1,18 @@
+[package]
+name = "sudoku_solver"
+description = "Sudoku solvers by rediscovering rust programming"
+authors = ["Ivan Imbert"]
+repository = "https://github.com/goblivend/sudokuSolvers"
+
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+clap = { version = "4.5.56", features = ["derive"] }
+
+[dev-dependencies]
+criterion = "0.4"
+
+[[bench]]
+name = "backtrack"
+harness = false
