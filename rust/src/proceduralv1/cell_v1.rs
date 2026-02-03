@@ -1,19 +1,13 @@
-#[derive(Debug)]
-pub struct Cell {
+use crate::procedural::cell::Cell;
+
+#[derive(Debug, Clone)]
+pub struct CellV1 {
     entropy: usize,
     value: Option<u32>,
     values: Vec<u32>,
 }
 
-impl Cell {
-    pub fn new(value: u32, size: u32) -> Self {
-        if value == 0 {
-            Self::new_none(size)
-        } else {
-            Self::new_some(value)
-        }
-    }
-
+impl Cell for CellV1 {
     fn new_none(size: u32) -> Self {
         let mut values: Vec<u32> = vec![];
         for v in 1..size + 1 {
@@ -34,7 +28,7 @@ impl Cell {
         }
     }
 
-    pub fn remove(&mut self, value: u32) {
+    fn remove(&mut self, value: u32) {
         if self.is_set() {
             return;
         }
@@ -48,7 +42,7 @@ impl Cell {
         }
     }
 
-    pub fn set(&mut self, value: u32) {
+    fn set(&mut self, value: u32) {
         assert!(self.values.contains(&value));
 
         self.values = vec![value];
@@ -56,29 +50,23 @@ impl Cell {
         self.value = Some(value);
     }
 
-    pub fn is_set(&self) -> bool {
+    fn is_set(&self) -> bool {
         self.value.is_some()
     }
 
-    pub fn get_values(&self) -> Vec<u32> {
+    fn get_values(&self) -> Vec<u32> {
         self.values.clone()
     }
 
-    pub fn get_entropy(&self) -> usize {
+    fn get_value(&self) -> Option<u32> {
+        self.value
+    }
+
+    fn get_entropy(&self) -> usize {
         if self.is_set() {
             return 1;
         }
 
         self.values.len()
-    }
-}
-
-impl Clone for Cell {
-    fn clone(&self) -> Self {
-        Self {
-            entropy: self.entropy,
-            value: self.value.clone(),
-            values: self.values.clone(),
-        }
     }
 }

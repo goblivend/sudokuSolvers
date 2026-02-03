@@ -52,6 +52,10 @@ impl solver::Solver for SolverBtrack {
         self.size
     }
 
+    fn get_region_size(&self) -> usize {
+        self.region_size
+    }
+
     fn get_elt(&self, x: usize, y: usize) -> u32 {
         self.grid[y][x] as u32
     }

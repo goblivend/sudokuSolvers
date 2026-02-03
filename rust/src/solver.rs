@@ -12,6 +12,7 @@ pub trait Solver {
     fn get_elt(&self, x: usize, y: usize) -> u32;
 
     fn get_size(&self) -> usize;
+    fn get_region_size(&self) -> usize;
 
     fn to_string(&self) -> String {
         let mut s = String::new();
