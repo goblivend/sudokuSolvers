@@ -15,9 +15,9 @@ pub trait Solver {
 
     fn to_string(&self) -> String {
         let mut s = String::new();
-        for i in 0..self.get_size() {
-            for j in 0..self.get_size() {
-                let elt = self.get_elt(i, j);
+        for y in 0..self.get_size() {
+            for x in 0..self.get_size() {
+                let elt = self.get_elt(x, y);
                 assert!(elt <= self.get_size() as u32);
                 s.push(if elt != 0 {
                     char::from_digit(elt, 36).unwrap()

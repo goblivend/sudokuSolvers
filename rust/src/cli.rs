@@ -5,6 +5,7 @@ use crate::solver;
 use crate::solver::Solver;
 
 use crate::backtrack::SolverBtrack;
+use crate::proceduralv1::SolverProceV1;
 
 #[derive(Parser, Debug)]
 #[command(name = "sudoku_solver")]
@@ -39,6 +40,7 @@ pub struct Cli {
 #[derive(ValueEnum, Clone, Debug)]
 pub enum PresetGrids {
     Grid2Empty,
+    Grid2NumEasy,
     Grid2NumA,
     Grid2NumB,
     Grid2NumC,
@@ -59,6 +61,7 @@ impl PresetGrids {
     pub fn as_str(&self) -> String {
         match self {
             PresetGrids::Grid2Empty => grids::GRID_2_EMPTY.to_string(),
+            PresetGrids::Grid2NumEasy => grids::GRID_2_NUM_EASY.to_string(),
             PresetGrids::Grid2NumA => grids::GRID_2_NUM_A.to_string(),
             PresetGrids::Grid2NumB => grids::GRID_2_NUM_B.to_string(),
             PresetGrids::Grid2NumC => grids::GRID_2_NUM_C.to_string(),
@@ -80,13 +83,14 @@ impl PresetGrids {
 #[derive(ValueEnum, Clone, Debug, PartialEq)]
 pub enum Solvers {
     Backtrack,
+    ProceV1,
     Last,
 }
 
 impl Solvers {
     pub fn resolve(self) -> Self {
         match self {
-            Self::Last => Self::Backtrack, // pick your “last/best” default here
+            Self::Last => Self::ProceV1, // pick your “last/best” default here
             other => other,
         }
     }
@@ -94,7 +98,8 @@ impl Solvers {
     pub fn builder(&self) -> Box<dyn Fn(&String) -> Box<dyn solver::Solver>> {
         match self {
             Self::Backtrack => Box::new(|grid: &String| Box::new(SolverBtrack::new(grid))),
-            Self::Last => Self::Backtrack.builder(),
+            Self::ProceV1 => Box::new(|grid: &String| Box::new(SolverProceV1::new(grid))),
+            Self::Last => Self::ProceV1.builder(),
         }
     }
 }

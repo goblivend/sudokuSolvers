@@ -16,3 +16,7 @@ criterion = "0.4"
 [[bench]]
 name = "backtrack"
 harness = false
+
+[[bench]]
+name = "proceduralv1"
+harness = false

@@ -1,4 +1,5 @@
 pub const GRID_2_EMPTY: &str = "................";
+pub const GRID_2_NUM_EASY: &str = "123434122341412.";
 pub const GRID_2_NUM_A: &str = "1234341223..41..";
 pub const GRID_2_NUM_B: &str = "1234341223......";
 pub const GRID_2_NUM_C: &str = "1.....1..1......";

@@ -18,6 +18,7 @@ macro_rules! solver_case {
 }
 
 solver_case!(backtrack_solves_2_empty, grids::GRID_2_EMPTY);
+solver_case!(backtrack_solves_2_num_easy, grids::GRID_2_NUM_EASY);
 solver_case!(backtrack_solves_2_num_a, grids::GRID_2_NUM_A);
 solver_case!(backtrack_solves_2_num_b, grids::GRID_2_NUM_B);
 solver_case!(backtrack_solves_2_num_c, grids::GRID_2_NUM_C);

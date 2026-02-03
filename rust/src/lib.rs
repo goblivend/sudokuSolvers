@@ -8,6 +8,7 @@ pub mod solver;
 pub mod sudoku;
 
 pub mod backtrack;
+pub mod proceduralv1;
 
 pub fn solve_it(solvers: Vec<cli::Solvers>, grid: &String, print: bool) -> bool {
     if print {

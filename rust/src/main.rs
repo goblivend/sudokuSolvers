@@ -4,11 +4,13 @@ use sudoku_solver::sudoku::convert_grid;
 
 use clap::Parser;
 
-pub mod backtrack;
 pub mod cli;
 pub mod grids;
 pub mod solver;
 pub mod sudoku;
+
+pub mod backtrack;
+pub mod proceduralv1;
 
 fn main() {
     let cli = Cli::parse();
