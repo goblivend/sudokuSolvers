@@ -1,11 +1,11 @@
 # Sudoku Solver
 
 ## Solutions
-| grids          | [backtrack](#backtrack) | [ProceV1](#proceduralv1) | [ProceV2](#proceduralv2) | [ProceV3](#proceduralv3) | [ProceV4](#proceduralv4) | [ProceV5](#proceduralv5) | [ProceV6](#proceduralv6) |
-| -------------- | ----------| ------- | ------- | ------- | ------- | ------- | ------- |
-| grid3-num-hard |           | 27.409s | 6.400s  | 6.319s  | 6.291s  | 2.260s  | 2.206s  |
-| grid4-num-a    |           |       s | 29.571s | 23.982s | 22.325s | 7.752s  | 7.681s  |
-|
+| grids          | [backtrack](#backtrack) | [ProceV1](#proceduralv1) | [ProceV2](#proceduralv2) | [ProceV3](#proceduralv3) | [ProceV4](#proceduralv4) | [ProceV5](#proceduralv5) | [ProceV6](#proceduralv6) | [ProceV7](#proceduralv7) |
+| -------------- | ----------| ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| grid3-num-hard |           | 27.409s | 6.400s  | 6.319s  | 6.291s  | 2.260s  | 2.206s  | 2.091s  |
+| grid4-num-a    |           |       s | 29.571s | 23.982s | 22.325s | 7.752s  | 7.681s  | 7.306s  |
+
 
 ### Backtrack
 
@@ -40,3 +40,7 @@
 ### ProceduralV6
 
 - Same as v5 but returning bit array of potential values for the cells instead of the Vector
+
+### ProceduralV7
+
+- Same as v6 but removed entropy recalculation

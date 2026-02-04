@@ -13,6 +13,14 @@ clap = { version = "4.5.56", features = ["derive"] }
 [dev-dependencies]
 criterion = "0.4"
 
+[profile.release]
+opt-level = 3 # default
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = false
+debug = true
+
 [[bench]]
 name = "backtrack"
 harness = false
@@ -39,4 +47,8 @@ harness = false
 
 [[bench]]
 name = "proceduralv6"
+harness = false
+
+[[bench]]
+name = "proceduralv7"
 harness = false
