@@ -1,10 +1,10 @@
 # Sudoku Solver
 
 ## Solutions
-| grids          | [backtrack](#backtrack) | [ProceV1](#proceduralv1) | [ProceV2](#proceduralv2) | [ProceV3](#proceduralv3) | [ProceV4](#proceduralv4) | [ProceV5](#proceduralv5) |
-| -------------- | ----------| ------- | ------- | ------- | ------- | ------- |
-| grid3-num-hard |           | 27.409s | 6.400s  | 6.319s  | 6.291s  | 2.260s  |
-| grid4-num-a    |           |       s | 29.571s | 23.982s | 22.325s | 7.752s  |
+| grids          | [backtrack](#backtrack) | [ProceV1](#proceduralv1) | [ProceV2](#proceduralv2) | [ProceV3](#proceduralv3) | [ProceV4](#proceduralv4) | [ProceV5](#proceduralv5) | [ProceV6](#proceduralv6) |
+| -------------- | ----------| ------- | ------- | ------- | ------- | ------- | ------- |
+| grid3-num-hard |           | 27.409s | 6.400s  | 6.319s  | 6.291s  | 2.260s  | 2.206s  |
+| grid4-num-a    |           |       s | 29.571s | 23.982s | 22.325s | 7.752s  | 7.681s  |
 |
 
 ### Backtrack
@@ -36,3 +36,7 @@
 ### ProceduralV5
 
 - Same as v4 but in the `solve_rec`, we do not need to save the grid for the last possibility : it will get fixed anyway by the previous `solve_rec` call
+
+### ProceduralV6
+
+- Same as v5 but returning bit array of potential values for the cells instead of the Vector

@@ -36,3 +36,7 @@ harness = false
 [[bench]]
 name = "proceduralv5"
 harness = false
+
+[[bench]]
+name = "proceduralv6"
+harness = false
