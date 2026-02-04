@@ -12,13 +12,14 @@ pub mod sudoku;
 pub mod backtrack;
 pub mod procedural;
 pub mod proceduralv1;
+pub mod proceduralv2;
 
 fn main() {
     let cli = Cli::parse();
     let init_grid = match (cli.g, cli.grid) {
         (Some(grid), None) => grid.as_str(),
         (None, Some(grid)) => grid,
-        _ => unreachable!("ArgGroup  Should enforce exactly one of -g/--grid"),
+        _ => unreachable!("ArgGroup should enforce exactly one of -g/--grid"),
     };
 
     let grid = if cli.alnum {

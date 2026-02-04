@@ -6,6 +6,7 @@ use crate::solver::Solver;
 
 use crate::backtrack::SolverBtrack;
 use crate::proceduralv1::SolverProceV1;
+use crate::proceduralv2::SolverProceV2;
 
 #[derive(Parser, Debug)]
 #[command(name = "sudoku_solver")]
@@ -84,13 +85,14 @@ impl PresetGrids {
 pub enum Solvers {
     Backtrack,
     ProceV1,
+    ProceV2,
     Last,
 }
 
 impl Solvers {
     pub fn resolve(self) -> Self {
         match self {
-            Self::Last => Self::ProceV1, // pick your “last/best” default here
+            Self::Last => Self::ProceV2,
             other => other,
         }
     }
@@ -99,7 +101,8 @@ impl Solvers {
         match self {
             Self::Backtrack => Box::new(|grid: &String| Box::new(SolverBtrack::new(grid))),
             Self::ProceV1 => Box::new(|grid: &String| Box::new(SolverProceV1::new(grid))),
-            Self::Last => Self::ProceV1.builder(),
+            Self::ProceV2 => Box::new(|grid: &String| Box::new(SolverProceV2::new(grid))),
+            Self::Last => Self::ProceV2.builder(),
         }
     }
 }

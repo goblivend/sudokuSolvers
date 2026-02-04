@@ -10,6 +10,7 @@ pub mod sudoku;
 pub mod backtrack;
 pub mod procedural;
 pub mod proceduralv1;
+pub mod proceduralv2;
 
 pub fn solve_it(solvers: Vec<cli::Solvers>, grid: &String, print: bool) -> bool {
     if print {

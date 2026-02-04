@@ -20,3 +20,7 @@ harness = false
 [[bench]]
 name = "proceduralv1"
 harness = false
+
+[[bench]]
+name = "proceduralv2"
+harness = false
