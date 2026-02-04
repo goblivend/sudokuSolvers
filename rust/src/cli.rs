@@ -7,6 +7,7 @@ use crate::solver::Solver;
 use crate::backtrack::SolverBtrack;
 use crate::proceduralv1::SolverProceV1;
 use crate::proceduralv2::SolverProceV2;
+use crate::proceduralv3::SolverProceV3;
 
 #[derive(Parser, Debug)]
 #[command(name = "sudoku_solver")]
@@ -86,13 +87,14 @@ pub enum Solvers {
     Backtrack,
     ProceV1,
     ProceV2,
+    ProceV3,
     Last,
 }
 
 impl Solvers {
     pub fn resolve(self) -> Self {
         match self {
-            Self::Last => Self::ProceV2,
+            Self::Last => Self::ProceV3,
             other => other,
         }
     }
@@ -102,7 +104,8 @@ impl Solvers {
             Self::Backtrack => Box::new(|grid: &String| Box::new(SolverBtrack::new(grid))),
             Self::ProceV1 => Box::new(|grid: &String| Box::new(SolverProceV1::new(grid))),
             Self::ProceV2 => Box::new(|grid: &String| Box::new(SolverProceV2::new(grid))),
-            Self::Last => Self::ProceV2.builder(),
+            Self::ProceV3 => Box::new(|grid: &String| Box::new(SolverProceV3::new(grid))),
+            Self::Last => Self::ProceV3.builder(),
         }
     }
 }
