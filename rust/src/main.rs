@@ -14,6 +14,7 @@ pub mod procedural;
 pub mod proceduralv1;
 pub mod proceduralv2;
 pub mod proceduralv3;
+pub mod proceduralv4;
 
 fn main() {
     let cli = Cli::parse();
