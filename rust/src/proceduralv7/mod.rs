@@ -90,9 +90,8 @@ impl SolverProceV7 {
         while entropy > 1 {
             let v = values.trailing_zeros() + 1;
             let base = self.grid.clone();
-            {
-                self.get_cell_mut(x, y).set(v);
-            }
+
+            self.get_cell_mut(x, y).set(v);
             self.propagate(v, x, y);
 
             if self.solve_rec() {
@@ -105,9 +104,7 @@ impl SolverProceV7 {
 
         let last = values.trailing_zeros() + 1;
 
-        {
-            self.get_cell_mut(x, y).set(last);
-        }
+        self.get_cell_mut(x, y).set(last);
         self.propagate(last, x, y);
 
         if self.solve_rec() {

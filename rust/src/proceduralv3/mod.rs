@@ -84,9 +84,7 @@ impl SolverProceV3 {
         };
         for v in self.get_cell(x, y).get_values() {
             let base = self.grid.clone();
-            {
-                self.get_cell_mut(x, y).set(v);
-            }
+            self.get_cell_mut(x, y).set(v);
             self.propagate(v, x, y);
 
             if self.solve_rec() {

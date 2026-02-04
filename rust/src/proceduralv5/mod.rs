@@ -86,9 +86,7 @@ impl SolverProceV5 {
         if let Some((last, vs)) = values.split_last() {
             for v in vs {
                 let base = self.grid.clone();
-                {
-                    self.get_cell_mut(x, y).set(*v);
-                }
+                self.get_cell_mut(x, y).set(*v);
                 self.propagate(*v, x, y);
 
                 if self.solve_rec() {
@@ -97,9 +95,7 @@ impl SolverProceV5 {
 
                 self.grid = base;
             }
-            {
-                self.get_cell_mut(x, y).set(*last);
-            }
+            self.get_cell_mut(x, y).set(*last);
             self.propagate(*last, x, y);
 
             if self.solve_rec() {
