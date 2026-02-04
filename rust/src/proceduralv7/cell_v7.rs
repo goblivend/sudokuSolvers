@@ -40,9 +40,6 @@ impl Cell for CellV7 {
     }
 
     fn set(&mut self, value: u32) {
-        if value > 32 {
-            println!("Attempting to shift by {value}");
-        }
         let v = 1 << (value - 1);
         assert_ne!(0, self.values & v);
 

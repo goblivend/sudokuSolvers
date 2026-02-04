@@ -104,11 +104,6 @@ impl SolverProceV7 {
         }
 
         let last = values.trailing_zeros() + 1;
-        if last > 32 {
-            println!(
-                "Going to attempt to shift by {last}, for values {values}, with entropy {entropy}, {x} {y}"
-            );
-        }
 
         {
             self.get_cell_mut(x, y).set(last);
