@@ -1,10 +1,16 @@
 # Sudoku Solver
 
 ## Solutions
-| grids          | [backtrack](#backtrack) | [ProceV1](#proceduralv1) | [ProceV2](#proceduralv2) | [ProceV3](#proceduralv3) | [ProceV4](#proceduralv4) | [ProceV5](#proceduralv5) | [ProceV6](#proceduralv6) | [ProceV7](#proceduralv7) |
-| -------------- | ----------| ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| grid3-num-hard |           | 27.409s | 6.400s  | 6.319s  | 6.291s  | 2.260s  | 2.206s  | 2.091s  |
-| grid4-num-a    |           |       s | 29.571s | 23.982s | 22.325s | 7.752s  | 7.681s  | 7.306s  |
+| grids          | [backtrack](#backtrack) | [ProceV1](#proceduralv1) | [ProceV2](#proceduralv2) | [ProceV3](#proceduralv3) | [ProceV4](#proceduralv4) | [ProceV5](#proceduralv5) | [ProceV6](#proceduralv6) | [ProceV7](#proceduralv7) |[ProceV8](#proceduralv8) |
+| -------------- | ----------| ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| grid3-num-hard | 0.451s    | 31.723s | 6.345s  | 6.673s  | 6.733s  | 2.412s  | 2.433s  | 2.462s  | same    |
+| grid4-num-a    |           | 217.75s | 24.207s | 23.960s | 27.942s | 9.857s  | 7.354s  | 9.649s  | same    |
+
+Sometimes, the runs go generally faster or slower depending on unknown variables (other things going on on the computer), so `slower` signifies that the previous version was faster, without the need to update the other values that might not match the last run.
+
+Similar thing for `same`, when runs don't have enough differences / change order from one run to the other, I don't bother changing all the results for now.
+
+When the project is more advanced, I'll do a new pass over all the solutions on a clean computer to get better results. For now it's enough to keep optimizing.
 
 
 ### Backtrack
@@ -44,3 +50,9 @@
 ### ProceduralV7
 
 - Same as v6 but removed entropy recalculation
+
+### ProceduralV8
+
+- Closer to V6: instead of saving entropy, recalculating it through `.count_ones()`
+    - Less data to store => less malloc
+    - No more branching whether we change the entropy or not...

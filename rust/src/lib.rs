@@ -16,6 +16,7 @@ pub mod proceduralv4;
 pub mod proceduralv5;
 pub mod proceduralv6;
 pub mod proceduralv7;
+pub mod proceduralv8;
 
 pub fn solve_it(solvers: Vec<cli::Solvers>, grid: &String, print: bool) -> bool {
     if print {
