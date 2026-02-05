@@ -19,7 +19,7 @@ pub trait Solver {
         for y in 0..self.get_size() {
             for x in 0..self.get_size() {
                 let elt = self.get_elt(x, y);
-                assert!(elt <= self.get_size() as u32);
+                assert!(elt <= self.get_size() as u32, "elt was {}", elt);
                 s.push(if elt != 0 {
                     char::from_digit(elt, 36).unwrap()
                 } else {

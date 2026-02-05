@@ -1,10 +1,10 @@
 # Sudoku Solver
 
 ## Solutions
-| grids          | [backtrack](#backtrack) | [ProceV1](#proceduralv1) | [ProceV2](#proceduralv2) | [ProceV3](#proceduralv3) | [ProceV4](#proceduralv4) | [ProceV5](#proceduralv5) | [ProceV6](#proceduralv6) | [ProceV7](#proceduralv7) |[ProceV8](#proceduralv8) |
-| -------------- | ----------| ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| grid3-num-hard | 0.451s    | 31.723s | 6.345s  | 6.673s  | 6.733s  | 2.412s  | 2.433s  | 2.462s  | same    |
-| grid4-num-a    |           | 217.75s | 24.207s | 23.960s | 27.942s | 9.857s  | 7.354s  | 9.649s  | same    |
+| grids          | [backtrack](#backtrack) | [ProceV1](#proceduralv1) | [ProceV2](#proceduralv2) | [ProceV3](#proceduralv3) | [ProceV4](#proceduralv4) | [ProceV5](#proceduralv5) | [ProceV6](#proceduralv6) | [ProceV7](#proceduralv7) | [ProceV8](#proceduralv8) | [ProceV9](#proceduralv9) |
+| -------------- | ----------| ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| grid3-num-hard | 0.451s    | 31.723s | 6.345s  | 6.673s  | 6.733s  | 2.412s  | 2.433s  | 2.462s  | same    | same    |
+| grid4-num-a    |           | 217.75s | 24.207s | 23.960s | 27.942s | 9.857s  | 7.354s  | 9.649s  | same    | same    |
 
 Sometimes, the runs go generally faster or slower depending on unknown variables (other things going on on the computer), so `slower` signifies that the previous version was faster, without the need to update the other values that might not match the last run.
 
@@ -56,3 +56,7 @@ When the project is more advanced, I'll do a new pass over all the solutions on 
 - Closer to V6: instead of saving entropy, recalculating it through `.count_ones()`
     - Less data to store => less malloc
     - No more branching whether we change the entropy or not...
+
+### ProceduralV9
+
+- Same as v8 but using masks everywhere instead of going from mask to integer and back to mask
