@@ -26,7 +26,6 @@ impl Cell for CellV8 {
 
     fn remove(&mut self, value: u32) {
         if self.is_set() {
-            // TODO might want to remove this to avoid branching, if is set then value already in self.value
             return;
         }
         // No entropy calculation, simply remove the bit
