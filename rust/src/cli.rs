@@ -15,6 +15,8 @@ use crate::proceduralv7::SolverProceV7;
 use crate::proceduralv8::SolverProceV8;
 use crate::proceduralv9::SolverProceV9;
 
+use crate::proceduralv10::SolverProceV10;
+
 #[derive(Parser, Debug)]
 #[command(name = "sudoku_solver")]
 #[command(about = "Sudoku solvers from 3 to 5 grid sizes")]
@@ -100,13 +102,14 @@ pub enum Solvers {
     ProceV7,
     ProceV8,
     ProceV9,
+    ProceV10,
     Last,
 }
 
 impl Solvers {
     pub fn resolve(self) -> Self {
         match self {
-            Self::Last => Self::ProceV9,
+            Self::Last => Self::ProceV10,
             other => other,
         }
     }
@@ -123,7 +126,8 @@ impl Solvers {
             Self::ProceV7 => Box::new(|grid: &String| Box::new(SolverProceV7::new(grid))),
             Self::ProceV8 => Box::new(|grid: &String| Box::new(SolverProceV8::new(grid))),
             Self::ProceV9 => Box::new(|grid: &String| Box::new(SolverProceV9::new(grid))),
-            Self::Last => Self::ProceV9.builder(),
+            Self::ProceV10 => Box::new(|grid: &String| Box::new(SolverProceV10::new(grid))),
+            Self::Last => Self::ProceV10.builder(),
         }
     }
 }

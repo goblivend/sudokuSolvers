@@ -1,10 +1,15 @@
 # Sudoku Solver
 
 ## Solutions
-| grids          | [backtrack](#backtrack) | [ProceV1](#proceduralv1) | [ProceV2](#proceduralv2) | [ProceV3](#proceduralv3) | [ProceV4](#proceduralv4) | [ProceV5](#proceduralv5) | [ProceV6](#proceduralv6) | [ProceV7](#proceduralv7) | [ProceV8](#proceduralv8) | [ProceV9](#proceduralv9) |
-| -------------- | ----------| ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
-| grid3-num-hard | 0.451s    | 31.723s | 6.345s  | 6.673s  | 6.733s  | 2.412s  | 2.433s  | 2.462s  | same    | same    |
-| grid4-num-a    |           | 217.75s | 24.207s | 23.960s | 27.942s | 9.857s  | 7.354s  | 9.649s  | same    | same    |
+
+Runs made using the whole program using [hyperfine](https://github.com/sharkdp/hyperfine) on an i5 laptop
+
+| grids                 | [backtrack](#backtrack) | [ProceV1](#proceduralv1) | [ProceV2](#proceduralv2) | [ProceV3](#proceduralv3) | [ProceV4](#proceduralv4) | [ProceV5](#proceduralv5) | [ProceV6](#proceduralv6) | [ProceV7](#proceduralv7) | [ProceV8](#proceduralv8) | [ProceV9](#proceduralv9) | [ProceV10](#proceduralv10) |
+| --------------------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- | ------- |
+| grid3-num-hard        | 0.451s  | 31.723s | 6.345s  | 6.673s  | 6.733s  | 2.412s  | 2.433s  | 2.462s  | same    | same    | 0.021s  |
+| grid4-num-a           |         | 217.75s | 24.207s | 23.960s | 27.942s | 9.857s  | 7.354s  | 9.649s  | same    | same    | 0.043s  |
+| grid5-num-easy        |         |         |         |         |         |         |         |         |         | >4h     | 0.057s  |
+| grid5-num-advanced    |         |         |         |         |         |         |         |         |         | >4h     | 0.085s  |
 
 Sometimes, the runs go generally faster or slower depending on unknown variables (other things going on on the computer), so `slower` signifies that the previous version was faster, without the need to update the other values that might not match the last run.
 
@@ -60,3 +65,7 @@ When the project is more advanced, I'll do a new pass over all the solutions on 
 ### ProceduralV9
 
 - Same as v8 but using masks everywhere instead of going from mask to integer and back to mask
+
+### ProceduralV10
+
+- Instead of just looking at which cell can be solved the fastest, now also looking in each line/col/block which number will be the fastest

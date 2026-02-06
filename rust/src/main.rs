@@ -21,6 +21,8 @@ pub mod proceduralv7;
 pub mod proceduralv8;
 pub mod proceduralv9;
 
+pub mod proceduralv10;
+
 fn main() {
     let cli = Cli::parse();
     let init_grid = match (cli.g, cli.grid) {
